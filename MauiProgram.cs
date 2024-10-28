@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-
+using MedicineClient.ViewModels;
+using MedicineClient.Views;
 namespace MedicineClient
 {
     public static class MauiProgram
@@ -14,9 +15,10 @@ namespace MedicineClient
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-
+            builder.Services.AddSingleton<LoginPage>();
+            builder.Services.AddSingleton<LoginPageViewModel>();
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
