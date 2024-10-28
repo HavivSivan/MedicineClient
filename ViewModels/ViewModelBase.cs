@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NedicineClient.ViewModels
+namespace MedicineClient.ViewModels
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
