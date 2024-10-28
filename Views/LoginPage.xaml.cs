@@ -1,5 +1,4 @@
 using MedicineClient.ViewModels;
-using SweetBoxApp.ViewModels;
 namespace MedicineClient.Views;
 
 
