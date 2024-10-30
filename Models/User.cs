@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 
-namespace MedicineServer.DTO
+namespace MedicineClient.Models
 {
     public class AppUser
     {
@@ -20,6 +20,10 @@ namespace MedicineServer.DTO
         public int Rank { get; set; }
 
         public AppUser() { }
+        public AppUser(int id, string username, string firstname, string lastname, string useremail, string userpassword, int rank) 
+        {
+            this.Id = id; this.UserName = username; this.FirstName = firstname; this.LastName=lastname; this.UserEmail = useremail; this.UserPassword = userpassword; this.Rank = rank;
+        }
        
     }
 }

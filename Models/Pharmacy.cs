@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 
-namespace MedicineServer.DTO
+namespace MedicineClient.Models
 {
     public class Pharmacy
     {
@@ -14,9 +14,9 @@ namespace MedicineServer.DTO
         public int Phone { get; set; }
 
         public Pharmacy() { }
-        public Pharmacy()
+        public Pharmacy(int Id, string name, string adress, int phone)
         {
-           
+           this.Id= Id; this.Name= name; this.Adress = adress; this.Phone = phone;
         }
     }
 }

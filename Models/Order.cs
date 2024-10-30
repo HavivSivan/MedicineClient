@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 
-namespace MedicineServer.DTO
+namespace MedicineClient.Models
 {
     public class MedicineStatus
     {
@@ -15,8 +15,13 @@ namespace MedicineServer.DTO
         public string Sender { get; set; }
 
         public MedicineStatus() { }
-        public MedicineStatus()
+        public MedicineStatus(int id, int medicineid, int userid, string reciever, string sender)
         {
+            this.Sender = sender;
+            this.MedicineId = medicineid;
+            this.UserId = userid;
+            this.Id = id;
+            this.Receiver = reciever;
             
         }
     }

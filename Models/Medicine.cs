@@ -17,8 +17,16 @@
 
         public int UserId { get; set; }
         public Medicine()
-        {
+        { }
 
+        public Medicine(int medicineid, int pharamacyid, string medicinename, string brandname, int statusid, int userid)
+        {
+            this.MedicineId=medicineid;
+            this.MedicineName=medicinename;
+            this.BrandName=brandname;
+            this.StatusId=statusid;
+            this.UserId=userid;
+            this.PharmacyId=pharamacyid;
         }
     }
 }
