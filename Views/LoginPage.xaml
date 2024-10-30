@@ -6,7 +6,7 @@
              x:Class="MedicineClient.Views.LoginPage"
              BackgroundColor="White">
 
-    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="30">
+    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="30" >
 
      
         <Label Text="Login" 
@@ -25,7 +25,7 @@
                WidthRequest="250"
                HorizontalTextAlignment="Center"
                Keyboard="Text" 
-               Text="{Binding PName}"/>
+               Text="{Binding Name}"/>
 
        
         <Entry Placeholder="Password"

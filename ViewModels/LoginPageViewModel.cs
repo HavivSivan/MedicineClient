@@ -14,25 +14,25 @@ namespace MedicineClient.ViewModels;
 public class LoginPageViewModel : ViewModelBase
 {
 
-    private string Name;
-    public string PName
+    private string _Name;
+    public string Name
     {
-        get { return Name; }
+        get { return _Name; }
         set
         {
-            Name = value; OnPropertyChanged();
+            _Name = value; OnPropertyChanged();
 
         }
     }
-    private bool logged;
-    public bool Logged { get { return logged; } set { logged = value; OnPropertyChanged(); } }
-    private string password;
+    private bool _logged;
+    public bool Logged { get { return _logged; } set { _logged = value; OnPropertyChanged(); } }
+    private string _password;
     public string Password
     {
-        get { return password; }
+        get { return _password; }
         set
         {
-            password = value; OnPropertyChanged();
+            _password = value; OnPropertyChanged();
         }
     }
     

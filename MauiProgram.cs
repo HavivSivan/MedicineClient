@@ -12,7 +12,7 @@ namespace MedicineClient
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
-                    fonts.AddFont("Gurajada-Regular.ttf", "Guarajada");
+                    fonts.AddFont("Gurajada-Regular.ttf", "Gurajada");
                 });
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<LoginPageViewModel>();
