@@ -16,6 +16,8 @@ namespace MedicineClient
                 });
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<LoginPageViewModel>();
+            builder.Services.AddSingleton<RegisterPageViewModel>();
+            builder.Services.AddSingleton<RegisterPage>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

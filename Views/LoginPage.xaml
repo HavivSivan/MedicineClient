@@ -13,7 +13,7 @@
                FontSize="32" 
                FontAttributes="Bold" 
                TextColor="Red" 
-               HorizontalOptions="Center" />
+               HorizontalOptions="Center" FontFamily="Gurajada" />
 
        
         <Entry Placeholder="Username"
@@ -25,7 +25,7 @@
                WidthRequest="250"
                HorizontalTextAlignment="Center"
                Keyboard="Text" 
-               Text="{Binding Name}"/>
+               Text="{Binding Name}" FontFamily="Gurajada"/>
 
        
         <Entry Placeholder="Password"
@@ -38,7 +38,7 @@
                WidthRequest="250"
                HorizontalTextAlignment="Center"
                Keyboard="Text"
-               Text="{Binding Password}"/>
+               Text="{Binding Password}" FontFamily="Gurajada"/>
 
       
         <Button Text="Login"
@@ -48,7 +48,7 @@
                 Margin="0,30,0,0"
                 HeightRequest="50"
                 WidthRequest="250"
-                CornerRadius="25" />
+                CornerRadius="25" FontFamily="Gurajada" />
 
     </StackLayout>
 </ContentPage>

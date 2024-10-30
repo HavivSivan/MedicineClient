@@ -1,72 +1,73 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MedicineClient.Views.Register"
-             Title="Register"
+             x:Class="MedicineClient.Views.RegisterPage"
+             Title="Register Page"
              xmlns:ViewModels="clr-namespace:MedicineClient.ViewModels"
-             x:DataType="ViewModels:RegisterPageViewModel">
+             x:DataType="ViewModels:RegisterPageViewModel" >
     <ContentPage.Content>
-        <StackLayout Padding="30" Spacing="20">
-
-            <Label Text="Create Account"
+        <ScrollView   >
+            <StackLayout Spacing="20" Padding="30">
+                <Label Text="Create Account"
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
-                   TextColor="Red" />
+                   TextColor="Red" FontFamily="Gurajada"/>
 
-            <Label Text="Username" TextColor="Red" FontFamily="Gurajada" FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your Username" Text="{Binding Username} " TextColor="Black" PlaceholderColor="LightGray" BackgroundColor="White" Margin="0,0,0,10"/>
-            <Label Text="First Name"
+                <Label Text="Username" TextColor="Red" FontFamily="Gurajada"  FontAttributes="Bold"/>
+                <Entry Placeholder="Enter your Username" Text="{Binding Username} " TextColor="Black" PlaceholderColor="LightGray" BackgroundColor="White"  FontFamily="Gurajada" Margin="0,0,0,10"/>
+                <Label Text="First Name"
                    TextColor="Red"
-                   FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your first name"
+                   FontAttributes="Bold" FontFamily="Gurajada"/>
+                <Entry Placeholder="Enter your first name"
                    TextColor="Black"
                    PlaceholderColor="LightGray"
                    BackgroundColor="White"
                    Margin="0,0,0,10"
-                   Text="{Binding FirstName}"/>
+                   Text="{Binding FirstName}" FontFamily="Gurajada"/>
 
-            <Label Text="Last Name"
+                <Label Text="Last Name"
                    TextColor="Red"
-                   FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your last name"
+                   FontAttributes="Bold" FontFamily="Gurajada"/>
+                <Entry Placeholder="Enter your last name"
                    TextColor="Black"
                    PlaceholderColor="LightGray"
                    BackgroundColor="White"
-                   Margin="0,0,0,10" Text="{Binding LastName}"/>
+                   Margin="0,0,0,10" Text="{Binding LastName}" FontFamily="Gurajada"/>
 
-            <Label Text="Email"
+                <Label Text="Email"
                    TextColor="Red"
-                   FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your email"
+                   FontAttributes="Bold" FontFamily="Gurajada"/>
+                <Entry Placeholder="Enter your email"
                    TextColor="Black"
                    PlaceholderColor="LightGray"
                    BackgroundColor="White"
                    Keyboard="Email"
                    Margin="0,0,0,10"
-                   Text="{Binding Email}"/>
+                   Text="{Binding Email}" FontFamily="Gurajada"/>
 
 
-            <Label Text="Password"
+                <Label Text="Password"
                    TextColor="Red"
-                   FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your password"
+                   FontAttributes="Bold" FontFamily="Gurajada"/>
+                <Entry Placeholder="Enter your password"
                    TextColor="Black"
                    PlaceholderColor="LightGray"
                    BackgroundColor="White"
                    IsPassword="True"
                    Margin="0,0,0,10"
-                   Text="{Binding Password}"/>
+                   Text="{Binding Password}" FontFamily="Gurajada"/>
 
-            <Button Text="Register"
+                <Button Text="Register"
                     TextColor="White"
                     BackgroundColor="Red"
                     FontAttributes="Bold"
                     CornerRadius="8"
                     HorizontalOptions="Fill"
                     Padding="10" 
+                    FontFamily="Gurajada"
                     />
-
-        </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
