@@ -17,6 +17,7 @@
 
                 <Label Text="Username" TextColor="Red" FontFamily="Gurajada"  FontAttributes="Bold"/>
                 <Entry Placeholder="Enter your Username" Text="{Binding Username} " TextColor="Black" PlaceholderColor="LightGray" BackgroundColor="White"  FontFamily="Gurajada" Margin="0,0,0,10"/>
+                <Label Text="{Binding Errorname}" TextColor="Red" FontFamily="Gurajada"  FontAttributes="Bold"/>
                 <Label Text="First Name"
                    TextColor="Red"
                    FontAttributes="Bold" FontFamily="Gurajada"/>
@@ -58,6 +59,7 @@
                    IsPassword="True"
                    Margin="0,0,0,10"
                    Text="{Binding Password}" FontFamily="Gurajada"/>
+                <Label Text="{Binding Errorpass}" TextColor="Red" FontFamily="Gurajada"  FontAttributes="Bold"/>
 
                 <Button Text="Register"
                     TextColor="White"

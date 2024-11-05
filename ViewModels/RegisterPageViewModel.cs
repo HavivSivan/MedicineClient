@@ -7,6 +7,9 @@ public class RegisterPageViewModel : ViewModelBase
     private string _lastName;
     private string _email;
     private string _password;
+    private string _errorname;
+    private string _errorpass;
+    private string _erroremail;
 
     public string Username
     {
@@ -68,7 +71,30 @@ public class RegisterPageViewModel : ViewModelBase
 
         }
     }
-
+    public string Errorname
+    {
+        get => _errorname;
+        set
+        {
+            _errorname = value;
+            OnPropertyChanged();
+        }
+    }
+    public string Errorpass
+    {
+        get => _errorpass;
+        set
+        {
+            _errorpass = value;
+            OnPropertyChanged();
+        }
+    }
+    public string Erroremail
+    {
+        get => _erroremail;
+        set { _errorpass = value;
+        OnPropertyChanged();}
+    }
 
 }
 
