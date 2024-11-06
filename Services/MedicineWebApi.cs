@@ -33,6 +33,7 @@ namespace MedicineClient.Services
         //מאפיין זה מחזיק את פרטי המשתמש לאחר התחברות מוצלחת.
         //ניתן להשתמש בו לצורך בדיקה או שליפה של מידע על המשתמש המחובר
         public AppUser LoggedInUser { get; set; }
+
     }
 }
 
