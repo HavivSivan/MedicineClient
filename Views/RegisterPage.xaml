@@ -27,7 +27,7 @@
                    BackgroundColor="White"
                    Margin="0,0,0,10"
                    Text="{Binding FirstName}" FontFamily="Gurajada"/>
-
+                
                 <Label Text="Last Name"
                    TextColor="Red"
                    FontAttributes="Bold" FontFamily="Gurajada"/>
@@ -36,7 +36,7 @@
                    PlaceholderColor="LightGray"
                    BackgroundColor="White"
                    Margin="0,0,0,10" Text="{Binding LastName}" FontFamily="Gurajada"/>
-
+                <Label FontFamily="Gurajada" TextColor="Red" FontSize="Medium" Text="{Binding Errorname}"/>
                 <Label Text="Email"
                    TextColor="Red"
                    FontAttributes="Bold" FontFamily="Gurajada"/>
@@ -47,7 +47,7 @@
                    Keyboard="Email"
                    Margin="0,0,0,10"
                    Text="{Binding Email}" FontFamily="Gurajada"/>
-
+                <Label FontFamily="Gurajada" TextColor="Red" FontSize="Medium" Text="{Binding Erroremail}"/>
 
                 <Label Text="Password"
                    TextColor="Red"
@@ -59,7 +59,7 @@
                    IsPassword="True"
                    Margin="0,0,0,10"
                    Text="{Binding Password}" FontFamily="Gurajada"/>
-                <Label Text="{Binding Errorpass}" TextColor="Red" FontFamily="Gurajada"  FontAttributes="Bold"/>
+                <Label Text="{Binding Errorpass}" TextColor="Red" FontFamily="Gurajada" FontSize="Medium"/>
 
                 <Button Text="Register"
                     TextColor="White"
@@ -69,7 +69,16 @@
                     HorizontalOptions="Fill"
                     Padding="10" 
                     FontFamily="Gurajada"
+                        Command="{Binding RegisterCommand}"
                     />
+                <Button Text="Clear"
+                        TextColor="White"
+BackgroundColor="Red"
+FontAttributes="Bold"
+CornerRadius="8"
+HorizontalOptions="Fill"
+Padding="10" 
+FontFamily="Gurajada" Command="{Binding ClearCommand}"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
