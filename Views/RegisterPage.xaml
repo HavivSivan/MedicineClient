@@ -6,7 +6,7 @@
              xmlns:ViewModels="clr-namespace:MedicineClient.ViewModels"
              x:DataType="ViewModels:RegisterPageViewModel" >
     <ContentPage.Content>
-        <RefreshView Refreshing="{Binding OnRefresh}">
+        <RefreshView Command="{Binding RefreshCommand}">
             <ScrollView   >
                 <StackLayout Spacing="20" Padding="30" >
 
@@ -16,7 +16,7 @@
                    HorizontalOptions="Center"
                    TextColor="Red" FontFamily="Gurajada"/>
                     <Entry Placeholder="Enter your Username" Text="{Binding Username} " TextColor="Black" PlaceholderColor="LightGray" BackgroundColor="White"  FontFamily="Gurajada" Margin="0,0,0,10"/>
-                    <Label Text="{Binding Errorname}" TextColor="Firebrick" FontFamily="Gurajada"  FontAttributes="Bold"/>
+                   
                     <Entry Placeholder="Enter your first name"
                    TextColor="Black"
                    PlaceholderColor="LightGray"
@@ -28,7 +28,7 @@
                    PlaceholderColor="LightGray"
                    BackgroundColor="White"
                    Margin="0,0,0,10" Text="{Binding LastName}" FontFamily="Gurajada"/>
-                    <Label FontFamily="Gurajada" TextColor="Red" FontSize="Medium" Text="{Binding Errorname}"/>
+                    <Label FontFamily="Gurajada" TextColor="Firebrick" FontSize="Medium" Text="{Binding Errorname}"/>
                     <Entry Placeholder="Enter your email"
                    TextColor="Black"
                    PlaceholderColor="LightGray"

@@ -59,16 +59,18 @@ public class RegisterPageViewModel : ViewModelBase
     {
         MethodBase caller = new StackTrace().GetFrame(1).GetMethod();
         string callerMethodName = caller.Name;
+        string[]wordholder = callerMethodName.Split("Set_");
+        callerMethodName = wordholder[0];
         if(string.IsNullOrEmpty(value))
         {
-            Errorname = $"{callerMethodName} Is required";
+            Errorname = $"{callerMethodName} is required";
         }
         if (value.Length < 2 || value.Length > 16)
         {
             Errorname = $"{callerMethodName} must be between 3 and 16 characters";
             return false;
         }
-        if (System.Text.RegularExpressions.Regex.IsMatch(value, @"^[a-zA-Z]+$"))
+        if (!System.Text.RegularExpressions.Regex.IsMatch(value, @"^[a-zA-Z]+$"))
         {
             Errorname = $"{callerMethodName} must be written in English characters";
             return false;
@@ -109,7 +111,8 @@ public class RegisterPageViewModel : ViewModelBase
         get => _email;
         set
         {
-            
+            if (!ValidateEmail(value))
+                return;
                 _email = value;
             OnPropertyChanged();
 
