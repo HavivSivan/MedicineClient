@@ -13,7 +13,36 @@ public class RegisterPageViewModel : ViewModelBase
     private string _errorname;
     private string _errorpass;
     private string _erroremail;
+    public Command ClearCommand { get; }
+    public Command RegisterCommand { get; }
+    public Command RefreshCommand {  get; }
+    public RegisterPageViewModel()
+    {
+        RegisterCommand = new Command(OnRegister);
+        RefreshCommand = new Command(OnRefresh);
+    }
+    public async void OnRefresh()
+    {
+        Username = new string("");
+        FirstName = new string("");
+        LastName = new string("");
+        Email = new string("");
+        Password = new string("");
+        Errorname = new string("");
+        Errorpass = new string("");
+        Erroremail = new string("");
+    }
+    public bool ValidateAll()
+    {
+        return ValidateEmail(Email)&&ValidatePassword(Password)&&ValidateName(Username)&&ValidateName(FirstName)&&ValidateName(LastName);
+    }
+    public async void OnRegister()
+    {
+            if(ValidateAll())
+        {
 
+        }
+    }
     public string Username
     {
         get => _username;

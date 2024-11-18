@@ -6,62 +6,46 @@
              xmlns:ViewModels="clr-namespace:MedicineClient.ViewModels"
              x:DataType="ViewModels:RegisterPageViewModel" >
     <ContentPage.Content>
-        <ScrollView   >
-            <StackLayout Spacing="20" Padding="30">
-               
-                <Label Text="Create Account"
+        <RefreshView Refreshing="{Binding OnRefresh}">
+            <ScrollView   >
+                <StackLayout Spacing="20" Padding="30" >
+
+                    <Label Text="Create Account"
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
                    TextColor="Red" FontFamily="Gurajada"/>
-
-                <Label Text="Username" TextColor="Red" FontFamily="Gurajada"  FontAttributes="Bold"/>
-                <Entry Placeholder="Enter your Username" Text="{Binding Username} " TextColor="Black" PlaceholderColor="LightGray" BackgroundColor="White"  FontFamily="Gurajada" Margin="0,0,0,10"/>
-                <Label Text="{Binding Errorname}" TextColor="Red" FontFamily="Gurajada"  FontAttributes="Bold"/>
-                <Label Text="First Name"
-                   TextColor="Red"
-                   FontAttributes="Bold" FontFamily="Gurajada"/>
-                <Entry Placeholder="Enter your first name"
+                    <Entry Placeholder="Enter your Username" Text="{Binding Username} " TextColor="Black" PlaceholderColor="LightGray" BackgroundColor="White"  FontFamily="Gurajada" Margin="0,0,0,10"/>
+                    <Label Text="{Binding Errorname}" TextColor="Firebrick" FontFamily="Gurajada"  FontAttributes="Bold"/>
+                    <Entry Placeholder="Enter your first name"
                    TextColor="Black"
                    PlaceholderColor="LightGray"
                    BackgroundColor="White"
                    Margin="0,0,0,10"
                    Text="{Binding FirstName}" FontFamily="Gurajada"/>
-                
-                <Label Text="Last Name"
-                   TextColor="Red"
-                   FontAttributes="Bold" FontFamily="Gurajada"/>
-                <Entry Placeholder="Enter your last name"
+                    <Entry Placeholder="Enter your last name"
                    TextColor="Black"
                    PlaceholderColor="LightGray"
                    BackgroundColor="White"
                    Margin="0,0,0,10" Text="{Binding LastName}" FontFamily="Gurajada"/>
-                <Label FontFamily="Gurajada" TextColor="Red" FontSize="Medium" Text="{Binding Errorname}"/>
-                <Label Text="Email"
-                   TextColor="Red"
-                   FontAttributes="Bold" FontFamily="Gurajada"/>
-                <Entry Placeholder="Enter your email"
+                    <Label FontFamily="Gurajada" TextColor="Red" FontSize="Medium" Text="{Binding Errorname}"/>
+                    <Entry Placeholder="Enter your email"
                    TextColor="Black"
                    PlaceholderColor="LightGray"
                    BackgroundColor="White"
                    Keyboard="Email"
                    Margin="0,0,0,10"
                    Text="{Binding Email}" FontFamily="Gurajada"/>
-                <Label FontFamily="Gurajada" TextColor="Red" FontSize="Medium" Text="{Binding Erroremail}"/>
-
-                <Label Text="Password"
-                   TextColor="Red"
-                   FontAttributes="Bold" FontFamily="Gurajada"/>
-                <Entry Placeholder="Enter your password"
+                    <Label FontFamily="Gurajada" TextColor="Firebrick" FontSize="Medium" Text="{Binding Erroremail}"/>
+                    <Entry Placeholder="Enter your password"
                    TextColor="Black"
                    PlaceholderColor="LightGray"
                    BackgroundColor="White"
                    IsPassword="True"
                    Margin="0,0,0,10"
                    Text="{Binding Password}" FontFamily="Gurajada"/>
-                <Label Text="{Binding Errorpass}" TextColor="Red" FontFamily="Gurajada" FontSize="Medium"/>
-
-                <Button Text="Register"
+                    <Label Text="{Binding Errorpass}" TextColor="Firebrick" FontFamily="Gurajada" FontSize="Medium"/>
+                    <Button Text="Register"
                     TextColor="White"
                     BackgroundColor="Red"
                     FontAttributes="Bold"
@@ -71,15 +55,10 @@
                     FontFamily="Gurajada"
                         Command="{Binding RegisterCommand}"
                     />
-                <Button Text="Clear"
-                        TextColor="White"
-BackgroundColor="Red"
-FontAttributes="Bold"
-CornerRadius="8"
-HorizontalOptions="Fill"
-Padding="10" 
-FontFamily="Gurajada" Command="{Binding ClearCommand}"/>
-            </StackLayout>
-        </ScrollView>
+
+                </StackLayout>
+            </ScrollView>
+        </RefreshView>
     </ContentPage.Content>
+        
 </ContentPage>
