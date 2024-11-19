@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using MedicineClient.ViewModels;
 using MedicineClient.Views;
+using MedicineClient.Services;
 namespace MedicineClient
 {
     public static class MauiProgram
@@ -14,10 +15,11 @@ namespace MedicineClient
                 {
                     fonts.AddFont("Gurajada-Regular.ttf", "Gurajada");
                 });
-            builder.Services.AddSingleton<LoginPage>();
-            builder.Services.AddSingleton<LoginPageViewModel>();
-            builder.Services.AddSingleton<RegisterPageViewModel>();
-            builder.Services.AddSingleton<RegisterPage>();
+            builder.Services.AddTransient<LoginPage>();
+            builder.Services.AddTransient<LoginPageViewModel>();
+            builder.Services.AddTransient<RegisterPageViewModel>();
+            builder.Services.AddTransient<RegisterPage>();
+            builder.Services.AddSingleton<MedicineWebApi>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

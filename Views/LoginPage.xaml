@@ -48,7 +48,8 @@
                 Margin="0,30,0,0"
                 HeightRequest="50"
                 WidthRequest="250"
-                CornerRadius="25" FontFamily="Gurajada" />
+                CornerRadius="25" FontFamily="Gurajada" Command="{Binding LoginCommand}"
+                IsEnabled="{Binding NotInServerCall}"/>
 
     </StackLayout>
 </ContentPage>

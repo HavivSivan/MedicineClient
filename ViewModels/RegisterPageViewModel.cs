@@ -1,5 +1,7 @@
+using MedicineClient.Services;
 using System.Diagnostics;
 using System.Reflection;
+using MedicineClient.Models;
 
 namespace MedicineClient.ViewModels;
 
@@ -16,11 +18,13 @@ public class RegisterPageViewModel : ViewModelBase
     public Command ClearCommand { get; }
     public Command RegisterCommand { get; }
     public Command RefreshCommand {  get; }
-    public RegisterPageViewModel()
+    public RegisterPageViewModel(MedicineWebApi proxy)
     {
+        this.proxy=proxy;
         RegisterCommand = new Command(OnRegister);
         RefreshCommand = new Command(OnRefresh);
     }
+    public MedicineWebApi proxy { get; set; }
     public async void OnRefresh()
     {
         Username = new string("");
@@ -40,7 +44,36 @@ public class RegisterPageViewModel : ViewModelBase
     {
             if(ValidateAll())
         {
+            var newUser = new AppUser
+            {
+                UserName = Username, FirstName = FirstName,
+                LastName = LastName,
+                UserEmail = Email,
+                UserPassword = Password,
+                Rank = 1
+            };
 
+            //Call the Register method on the proxy to register the new user
+            InServerCall = true;
+            newUser = await proxy.Register(newUser);
+            InServerCall = false;
+
+            //If the registration was successful, navigate to the login page
+            if (newUser != null)
+            {
+                //UPload profile imae if needed
+                
+                InServerCall = false;
+
+                ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+            }
+            else
+            {
+
+                //If the registration failed, display an error message
+                string errorMsg = "Registration failed. Please try again.";
+                await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
+            }
         }
     }
     public string Username
