@@ -92,13 +92,12 @@ public class RegisterPageViewModel : ViewModelBase
     {
         MethodBase caller = new StackTrace().GetFrame(1).GetMethod();
         string callerMethodName = caller.Name;
-        string[]wordholder = callerMethodName.Split("Set_");
-        callerMethodName = wordholder[0];
+        callerMethodName = callerMethodName.TrimStart('s','e','t','_');
         if(string.IsNullOrEmpty(value))
         {
             Errorname = $"{callerMethodName} is required";
         }
-        if (value.Length < 2 || value.Length > 16)
+        if (value.Length <= 2 || value.Length > 16)
         {
             Errorname = $"{callerMethodName} must be between 3 and 16 characters";
             return false;

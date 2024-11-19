@@ -40,7 +40,14 @@
                Keyboard="Text"
                Text="{Binding Password}" FontFamily="Gurajada"/>
 
-      
+        <Entry Text="{Binding ErrorMsg}"
+                BackgroundColor="Red"
+                TextColor="Firebrick"
+                FontAttributes="Bold"
+                Margin="0,30,0,0"
+                HeightRequest="50"
+                WidthRequest="250"
+                 FontFamily="Gurajada"/>
         <Button Text="Login"
                 BackgroundColor="Red"
                 TextColor="White"
