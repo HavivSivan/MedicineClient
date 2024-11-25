@@ -57,6 +57,7 @@
                 WidthRequest="250"
                 CornerRadius="25" FontFamily="Gurajada" Command="{Binding LoginCommand}"
                 IsEnabled="{Binding NotInServerCall}"/>
+        <Button Text="Don't have an account?" TextColor="Blue" Command="{Binding GoRegister}"/>
 
     </StackLayout>
 </ContentPage>

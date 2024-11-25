@@ -8,9 +8,6 @@
     Title="MedicineClient"
     xmlns:Views="clr-namespace:MedicineClient.Views">
 
-    
-        
-        
         <ShellContent Route="RegisterPage" ContentTemplate="{DataTemplate Views:RegisterPage}" />
-
+    <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate Views:LoginPage}"/>
 </Shell>

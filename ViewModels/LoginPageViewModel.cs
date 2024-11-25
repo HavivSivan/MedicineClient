@@ -16,6 +16,7 @@ namespace MedicineClient.ViewModels;
 public class LoginPageViewModel : ViewModelBase
 {
     public Command LoginCommand { get; }
+    public Command GoRegister { get; }
     public LoginPageViewModel(MedicineWebApi proxy, IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
@@ -25,10 +26,18 @@ public class LoginPageViewModel : ViewModelBase
         _password = "";
         InServerCall = false;
         errorMsg = "";
+        GoRegister = new Command(OnGotoRegister);
     }
     public MedicineWebApi proxy { get; set; }
     public IServiceProvider serviceProvider { get; set; }
-
+    
+    private async void OnGotoRegister()
+    {
+        AppShell shell = serviceProvider.GetService<AppShell>();
+        ((App)Application.Current).MainPage = shell;
+        Shell.Current.FlyoutIsPresented = false; 
+        Shell.Current.GoToAsync("RegisterPage"); 
+    }
     private string errorMsg;
     public string ErrorMsg
     {
@@ -42,7 +51,7 @@ public class LoginPageViewModel : ViewModelBase
             }
         }
     }
-   
+    
     public async void OnLogin()
     {
         //Choose the way you want to blobk the page while indicating a server call

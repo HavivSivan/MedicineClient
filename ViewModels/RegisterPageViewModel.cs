@@ -2,6 +2,19 @@ using MedicineClient.Services;
 using System.Diagnostics;
 using System.Reflection;
 using MedicineClient.Models;
+using Microsoft.Maui.Graphics.Text;
+using static System.Net.Mime.MediaTypeNames;
+using Microsoft.Extensions.DependencyInjection;
+using MedicineClient.Views;
+using MedicineClient.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Runtime.CompilerServices;
+
 
 namespace MedicineClient.ViewModels;
 
@@ -18,13 +31,24 @@ public class RegisterPageViewModel : ViewModelBase
     public Command ClearCommand { get; }
     public Command RegisterCommand { get; }
     public Command RefreshCommand {  get; }
-    public RegisterPageViewModel(MedicineWebApi proxy)
+    public Command GotoLoginCommand {  get; }
+    public RegisterPageViewModel(MedicineWebApi proxy, IServiceProvider serviceProvider)
     {
         this.proxy=proxy;
+        this.serviceProvider=serviceProvider;
         RegisterCommand = new Command(OnRegister);
         RefreshCommand = new Command(OnRefresh);
+        GotoLoginCommand = new Command(GotoLogin);
     }
     public MedicineWebApi proxy { get; set; }
+    public IServiceProvider serviceProvider { get; set; }
+    public async void GotoLogin()
+    {
+        AppShell shell = serviceProvider.GetService<AppShell>();
+        ((App)Application.Current).MainPage = shell;
+        Shell.Current.FlyoutIsPresented = false;
+        Shell.Current.GoToAsync("Tasks"); 
+    }
     public async void OnRefresh()
     {
         Username = new string("");

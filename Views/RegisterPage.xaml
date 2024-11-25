@@ -55,7 +55,7 @@
                     FontFamily="Gurajada"
                         Command="{Binding RegisterCommand}"
                     />
-
+                    <Button Text="Already have an account?" TextColor="Blue" Command="{Binding GotoLoginCommand}"/>
                 </StackLayout>
             </ScrollView>
         </RefreshView>
