@@ -6,7 +6,6 @@ using Microsoft.Maui.Graphics.Text;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.Extensions.DependencyInjection;
 using MedicineClient.Views;
-using MedicineClient.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Runtime.CompilerServices;
-
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MedicineClient.ViewModels;
 
