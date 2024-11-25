@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Reflection;
 using MedicineClient.Models;
 using Microsoft.Maui.Graphics.Text;
-using static System.Net.Mime.MediaTypeNames;
 using Microsoft.Extensions.DependencyInjection;
 using MedicineClient.Views;
 using System;
@@ -28,7 +27,7 @@ public class RegisterPageViewModel : ViewModelBase
     private string _errorpass;
     private string _erroremail;
     public Command ClearCommand { get; }
-    public Command RegisterCommand { get; }
+    public Command RegisterCommand { get; } 
     public Command RefreshCommand {  get; }
     public Command GotoLoginCommand {  get; }
     public RegisterPageViewModel(MedicineWebApi proxy, IServiceProvider serviceProvider)
@@ -88,7 +87,7 @@ public class RegisterPageViewModel : ViewModelBase
                 
                 InServerCall = false;
 
-                ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+                ((App)Application.Current).MainPage.Navigation.PopAsync();
             }
             else
             {

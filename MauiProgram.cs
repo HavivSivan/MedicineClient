@@ -16,10 +16,11 @@ namespace MedicineClient
                     fonts.AddFont("Gurajada-Regular.ttf", "Gurajada");
                 });
             builder.Services.AddTransient<LoginPage>();
-            builder.Services.AddTransient<LoginPageViewModel>();
-            builder.Services.AddTransient<RegisterPageViewModel>();
+            builder.Services.AddSingleton<LoginPageViewModel>();
+            builder.Services.AddSingleton<RegisterPageViewModel>();
             builder.Services.AddTransient<RegisterPage>();
             builder.Services.AddSingleton<MedicineWebApi>();
+            builder.Services.AddSingleton<ShellViewModel>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

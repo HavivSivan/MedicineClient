@@ -37,6 +37,7 @@ public class LoginPageViewModel : ViewModelBase
         ((App)Application.Current).MainPage = shell;
         Shell.Current.FlyoutIsPresented = false; 
         Shell.Current.GoToAsync("RegisterPage"); 
+        shell
     }
     private string errorMsg;
     public string ErrorMsg
