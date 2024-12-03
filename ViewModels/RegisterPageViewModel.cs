@@ -1,251 +1,310 @@
-using MedicineClient.Services;
-using System.Diagnostics;
-using System.Reflection;
-using MedicineClient.Models;
-using Microsoft.Maui.Graphics.Text;
-using Microsoft.Extensions.DependencyInjection;
-using MedicineClient.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Runtime.CompilerServices;
-using Microsoft.Extensions.DependencyInjection;
+using MedicineClient.Services;
+using MedicineClient.Models;
+using MedicineClient.ViewModels;
+using MedicineClient;
 
-namespace MedicineClient.ViewModels;
-
-public class RegisterPageViewModel : ViewModelBase
+namespace MedicineClient.ViewModels
 {
-    private string _username;
-    private string _firstName;
-    private string _lastName;
-    private string _email;
-    private string _password;
-    private string _errorname;
-    private string _errorpass;
-    private string _erroremail;
-    public Command ClearCommand { get; }
-    public Command RegisterCommand { get; } 
-    public Command RefreshCommand {  get; }
-    public Command GotoLoginCommand {  get; }
-    public RegisterPageViewModel(MedicineWebApi proxy, IServiceProvider serviceProvider)
+    public class RegisterPageViewModel : ViewModelBase
     {
-        this.proxy=proxy;
-        this.serviceProvider=serviceProvider;
-        RegisterCommand = new Command(OnRegister);
-        RefreshCommand = new Command(OnRefresh);
-        GotoLoginCommand = new Command(GotoLogin);
-    }
-    public MedicineWebApi proxy { get; set; }
-    public IServiceProvider serviceProvider { get; set; }
-    public async void GotoLogin()
-    {
-        AppShell shell = serviceProvider.GetService<AppShell>();
-        ((App)Application.Current).MainPage = shell;
-        Shell.Current.FlyoutIsPresented = false;
-        Shell.Current.GoToAsync("Tasks"); 
-    }
-    public async void OnRefresh()
-    {
-        Username = new string("");
-        FirstName = new string("");
-        LastName = new string("");
-        Email = new string("");
-        Password = new string("");
-        Errorname = new string("");
-        Errorpass = new string("");
-        Erroremail = new string("");
-    }
-    public bool ValidateAll()
-    {
-        return ValidateEmail(Email)&&ValidatePassword(Password)&&ValidateName(Username)&&ValidateName(FirstName)&&ValidateName(LastName);
-    }
-    public async void OnRegister()
-    {
-            if(ValidateAll())
+        private MedicineWebApi proxy;
+        public RegisterPageViewModel(MedicineWebApi proxy)
         {
-            var newUser = new AppUser
+            this.proxy = proxy;
+            RegisterCommand = new Command(OnRegister);
+            IsPassword = true;
+            NameError = "Name is required";
+            LastNameError = "Last name is required";
+            EmailError = "Email is required";
+            PasswordError = "Password must be at least 4 characters long and contain letters and numbers";
+        }
+
+        //Defiine properties for each field in the registration form including error messages and validation logic
+        #region Name
+        private bool showNameError;
+
+        public bool ShowNameError
+        {
+            get => showNameError;
+            set
             {
-                UserName = Username, FirstName = FirstName,
-                LastName = LastName,
-                UserEmail = Email,
-                UserPassword = Password,
-                Rank = 1
-            };
+                showNameError = value;
+                OnPropertyChanged("ShowNameError");
+            }
+        }
 
-            //Call the Register method on the proxy to register the new user
-            InServerCall = true;
-            newUser = await proxy.Register(newUser);
-            InServerCall = false;
+        private string name;
 
-            //If the registration was successful, navigate to the login page
-            if (newUser != null)
+        public string Name
+        {
+            get => name;
+            set
             {
-                //UPload profile imae if needed
-                
-                InServerCall = false;
+                name = value;
+                ValidateName();
+                OnPropertyChanged("Name");
+            }
+        }
 
-                ((App)Application.Current).MainPage.Navigation.PopAsync();
+        private string nameError;
+
+        public string NameError
+        {
+            get => nameError;
+            set
+            {
+                nameError = value;
+                OnPropertyChanged("NameError");
+            }
+        }
+
+        private void ValidateName()
+        {
+            this.ShowNameError = string.IsNullOrEmpty(Name);
+        }
+        #endregion
+
+        #region LastName
+        private bool showLastNameError;
+
+        public bool ShowLastNameError
+        {
+            get => showLastNameError;
+            set
+            {
+                showLastNameError = value;
+                OnPropertyChanged("ShowLastNameError");
+            }
+        }
+
+        private string lastName;
+
+        public string LastName
+        {
+            get => lastName;
+            set
+            {
+                lastName = value;
+                ValidateLastName();
+                OnPropertyChanged("LastName");
+            }
+        }
+
+        private string lastNameError;
+
+        public string LastNameError
+        {
+            get => lastNameError;
+            set
+            {
+                lastNameError = value;
+                OnPropertyChanged("LastNameError");
+            }
+        }
+
+        private void ValidateLastName()
+        {
+            this.ShowLastNameError = string.IsNullOrEmpty(LastName);
+        }
+        #endregion
+        #region Email
+        private bool showEmailError;
+
+        public bool ShowEmailError
+        {
+            get => showEmailError;
+            set
+            {
+                showEmailError = value;
+                OnPropertyChanged("ShowEmailError");
+            }
+        }
+
+        private string email;
+
+        public string Email
+        {
+            get => email;
+            set
+            {
+                email = value;
+                ValidateEmail();
+                OnPropertyChanged("Email");
+            }
+        }
+
+        private string emailError;
+
+        public string EmailError
+        {
+            get => emailError;
+            set
+            {
+                emailError = value;
+                OnPropertyChanged("EmailError");
+            }
+        }
+
+        private void ValidateEmail()
+        {
+            this.ShowEmailError = string.IsNullOrEmpty(Email);
+            if (!ShowEmailError)
+            {
+                //check if email is in the correct format using regular expression
+                if (!System.Text.RegularExpressions.Regex.IsMatch(Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
+                {
+                    EmailError = "Email is not valid";
+                    ShowEmailError = true;
+                }
+                else
+                {
+                    EmailError = "";
+                    ShowEmailError = false;
+                }
             }
             else
             {
-
-                //If the registration failed, display an error message
-                string errorMsg = "Registration failed. Please try again.";
-                await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
+                EmailError = "Email is required";
             }
         }
-    }
-    public string Username
-    {
-        get => _username;
-        set
-        {
-            if (!ValidateName(value)) return;
-                _username = value;
-            OnPropertyChanged();
-           
+        #endregion
+        #region Password
+        private bool showPasswordError;
 
-        }
-    }
-    private bool ValidateName(string value)
-    {
-        MethodBase caller = new StackTrace().GetFrame(1).GetMethod();
-        string callerMethodName = caller.Name;
-        callerMethodName = callerMethodName.TrimStart('s','e','t','_');
-        if(string.IsNullOrEmpty(value))
+        public bool ShowPasswordError
         {
-            Errorname = $"{callerMethodName} is required";
-        }
-        if (value.Length <= 2 || value.Length > 16)
-        {
-            Errorname = $"{callerMethodName} must be between 3 and 16 characters";
-            return false;
-        }
-        if (!System.Text.RegularExpressions.Regex.IsMatch(value, @"^[a-zA-Z]+$"))
-        {
-            Errorname = $"{callerMethodName} must be written in English characters";
-            return false;
-        }
-        
-
-        Errorname = "";
-        return true;
-    }
-
-    public string FirstName
-    {
-        get => _firstName;
-        set
-        {
-            
-            if(!ValidateName(value)) return;
-                _firstName = value;
-            OnPropertyChanged();
-           
-        }
-    }
-
-    public string LastName
-    {
-        get => _lastName;
-        set
-        {
-            if(!ValidateName(value)) return;
-                _lastName = value;
-            OnPropertyChanged();
-
-        }
-    }
-
-    public string Email
-    {
-        get => _email;
-        set
-        {
-            if (!ValidateEmail(value))
-                return;
-                _email = value;
-            OnPropertyChanged();
-
-        }
-    }
-    private bool ValidateEmail(string value)
-    {
-        if (!System.Text.RegularExpressions.Regex.IsMatch(value, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
-        {
-            Erroremail = "Email isn't valid";
-            return false;
-        }
-        if(string.IsNullOrEmpty(value))
+            get => showPasswordError;
+            set
             {
-            Erroremail = "Email is required.";
-            return false; }
-            Erroremail = "";
-        return true;
-    }
-    private bool ValidatePassword(string value)
-    {
-        if (string.IsNullOrEmpty(value))
-        {
-            Errorpass = "password is required";
-            return false;
+                showPasswordError = value;
+                OnPropertyChanged("ShowPasswordError");
+            }
         }
-        if(value.Length<8||value.Length>100)
-        {
-            Errorpass = "Password must be between 3 and 100 characters";
-            return false;
-        }
-        if(!System.Text.RegularExpressions.Regex.IsMatch(value, @"^[a-zA-Z0-9_]+$"))
-        {
-            Errorpass = "Password must be written in English letters, numbers and underscores.";
-        }
-        Errorpass = "";
-        return true;
-    }
-    public string Password
-    {
-        get => _password;
-        set
-        {
-            if (!ValidatePassword(value)) return;
 
-                _password = value;
-            OnPropertyChanged();
+        private string password;
 
-        }
-    }
-    public string Errorname
-    {
-        get => _errorname;
-        set
+        public string Password
         {
-            _errorname = value;
-            OnPropertyChanged();
+            get => password;
+            set
+            {
+                password = value;
+                ValidatePassword();
+                OnPropertyChanged("Password");
+            }
         }
-    }
-    public string Errorpass
-    {
-        get => _errorpass;
-        set
-        {
-            _errorpass = value;
-            OnPropertyChanged();
-        }
-    }
-    public string Erroremail
-    {
-        get => _erroremail;
-        set { _errorpass = value;
-        OnPropertyChanged();}
-    }
 
+        private string passwordError;
+
+        public string PasswordError
+        {
+            get => passwordError;
+            set
+            {
+                passwordError = value;
+                OnPropertyChanged("PasswordError");
+            }
+        }
+
+        private void ValidatePassword()
+        {
+            //Password must include characters and numbers and be longer than 4 characters
+            if (string.IsNullOrEmpty(password) ||
+                password.Length < 4 ||
+                !password.Any(char.IsDigit) ||
+                !password.Any(char.IsLetter))
+            {
+                this.ShowPasswordError = true;
+            }
+            else
+                this.ShowPasswordError = false;
+        }
+
+        //This property will indicate if the password entry is a password
+        private bool isPassword = true;
+        public bool IsPassword
+        {
+            get => isPassword;
+            set
+            {
+                isPassword = value;
+                OnPropertyChanged("IsPassword");
+            }
+        }
+        //This command will trigger on pressing the password eye icon
+        public Command ShowPasswordCommand { get; }
+        //This method will be called when the password eye icon is pressed
+        public void OnShowPassword()
+        {
+            //Toggle the password visibility
+            IsPassword = !IsPassword;
+        }
+        #endregion
+
+        #region Photo
+
+       
+
+
+        #endregion
+
+        //Define a command for the register button
+        public Command RegisterCommand { get; }
+        public Command CancelCommand { get; }
+
+        //Define a method that will be called when the register button is clicked
+        public async void OnRegister()
+        {
+            ValidateName();
+            ValidateLastName();
+            ValidateEmail();
+            ValidatePassword();
+
+            if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError)
+            {
+                //Create a new AppUser object with the data from the registration form
+                var newUser = new AppUser
+                {
+                    UserName = Name,
+                    LastName = LastName,
+                    UserEmail = Email,
+                    UserPassword = Password,
+                    Rank = 1
+                };
+
+                //Call the Register method on the proxy to register the new user
+                InServerCall = true;
+                newUser = await proxy.Register(newUser);
+                InServerCall = false;
+
+                //If the registration was successful, navigate to the login page
+                if (newUser != null)
+                {
+                    InServerCall = false;
+
+                    ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+                }
+                else
+                {
+
+                    //If the registration failed, display an error message
+                    string errorMsg = "Registration failed. Please try again.";
+                    await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
+                }
+            }
+        }
+
+        //Define a method that will be called upon pressing the cancel button
+        public void OnCancel()
+        {
+            //Navigate back to the login page
+            ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+        }
+
+    }
 }
-
-
-
-
-
-
