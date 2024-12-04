@@ -17,14 +17,42 @@ namespace MedicineClient.ViewModels
         {
             this.proxy = proxy;
             RegisterCommand = new Command(OnRegister);
+            CancelCommand = new Command(OnCancel);
             IsPassword = true;
+            UsernameError = "Username is required";
             NameError = "Name is required";
             LastNameError = "Last name is required";
             EmailError = "Email is required";
             PasswordError = "Password must be at least 4 characters long and contain letters and numbers";
         }
 
-        //Defiine properties for each field in the registration form including error messages and validation logic
+        #region Username
+        private bool showUsernameError;
+        public bool ShowUsernameError
+        {
+            get => showUsernameError; set { showUsernameError = value; OnPropertyChanged("ShowUsernameError"); }
+        }
+        private string username;
+        public string Username
+        {
+            get => username; set { username = value; OnPropertyChanged("Username"); }
+        }
+        private string usernameError;
+
+        public string UsernameError
+        {
+            get => usernameError;
+            set
+            {
+                usernameError = value;
+                OnPropertyChanged("usernameError");
+            }
+        }
+        private void ValidateUsername()
+        {
+            this.ShowUsernameError = string.IsNullOrEmpty(Username);
+        }
+        #endregion
         #region Name
         private bool showNameError;
 
@@ -62,7 +90,6 @@ namespace MedicineClient.ViewModels
                 OnPropertyChanged("NameError");
             }
         }
-
         private void ValidateName()
         {
             this.ShowNameError = string.IsNullOrEmpty(Name);
@@ -246,20 +273,14 @@ namespace MedicineClient.ViewModels
         }
         #endregion
 
-        #region Photo
-
        
-
-
-        #endregion
-
-        //Define a command for the register button
         public Command RegisterCommand { get; }
         public Command CancelCommand { get; }
 
         //Define a method that will be called when the register button is clicked
         public async void OnRegister()
         {
+            ValidateUsername();
             ValidateName();
             ValidateLastName();
             ValidateEmail();

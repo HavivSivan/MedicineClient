@@ -10,16 +10,20 @@
 
         <!-- Main Content -->
         <VerticalStackLayout IsEnabled="{Binding NotInServerCall}" Padding="20">
+            <Label Text="First Name" />
+            <Entry Placeholder="Type Username" Text="{Binding Username}" />
+            <Label Text="{Binding Username}" IsVisible="{Binding ShowUsernameError}"/>
             <!-- First Name -->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Text="First Name" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding NameError}" IsVisible="{Binding ShowNameError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" />
+                
+                <Label Text="First Name" Grid.Column="0"  />
+                <Label Text="{Binding NameError}" IsVisible="{Binding ShowNameError}" Grid.Column="1" />
             </Grid>
-            <Entry Placeholder="Type First Name" Text="{Binding Name}" Style="{StaticResource entryStyle}" />
+            <Entry Placeholder="Type First Name" Text="{Binding Name}"  />
 
             <!-- Last Name -->
             <Grid>
@@ -27,10 +31,10 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Text="Last Name" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding LastNameError}" IsVisible="{Binding ShowLastNameError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" />
+                <Label Text="Last Name" Grid.Column="0"  />
+                <Label Text="{Binding LastNameError}" IsVisible="{Binding ShowLastNameError}" Grid.Column="1"  />
             </Grid>
-            <Entry Placeholder="Type Last Name" Text="{Binding LastName}" Style="{StaticResource entryStyle}" />
+            <Entry Placeholder="Type Last Name" Text="{Binding LastName}"/>
 
             <!-- Email -->
             <Grid>
@@ -38,10 +42,10 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Text="Email" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding EmailError}" IsVisible="{Binding ShowEmailError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" />
+                <Label Text="Email" Grid.Column="0" />
+                <Label Text="{Binding EmailError}" IsVisible="{Binding ShowEmailError}" Grid.Column="1"/>
             </Grid>
-            <Entry Placeholder="Type Email" Text="{Binding Email}" Style="{StaticResource entryStyle}" />
+            <Entry Placeholder="Type Email" Text="{Binding Email}"/>
 
             <!-- Password -->
             <Grid>
@@ -49,16 +53,16 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Text="Password" Grid.Column="0" Style="{StaticResource labelNameStyle}" />
-                <Label Text="{Binding PasswordError}" IsVisible="{Binding ShowPasswordError}" Grid.Column="1" Style="{StaticResource labelErrorStyle}" />
+                <Label Text="Password" Grid.Column="0"/>
+                <Label Text="{Binding PasswordError}" IsVisible="{Binding ShowPasswordError}" Grid.Column="1"/>
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="40" />
                 </Grid.ColumnDefinitions>
-                <Entry Grid.Column="0" Placeholder="Type Password" Text="{Binding Password}" IsPassword="{Binding IsPassword}" Style="{StaticResource entryStyle}" />
-                <ImageButton Grid.Column="1" HeightRequest="25" Source="passwordeye.jpg" Command="{Binding ShowPasswordCommand}" />
+                <Entry Grid.Column="0" Placeholder="Type Password" Text="{Binding Password}" IsPassword="{Binding IsPassword}"/>
+                <ImageButton Grid.Column="1" HeightRequest="25" Source="passwordeye.png" Command="{Binding ShowPasswordCommand}" />
             </Grid>
 
             <!-- Register and Cancel Buttons -->
@@ -67,8 +71,8 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Text="Register" Command="{Binding RegisterCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="1" Style="{StaticResource buttonStyle}" />
-                <Button Text="Cancel" Command="{Binding CancelCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="0" Style="{StaticResource buttonStyle}"/>
+                <Button Text="Register" Command="{Binding RegisterCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="1" />
+                <Button Text="Cancel" Command="{Binding CancelCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="0"/>
             </Grid>
         </VerticalStackLayout>
         <!-- Centered ActivityIndicator -->

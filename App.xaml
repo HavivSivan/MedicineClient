@@ -1,4 +1,4 @@
-﻿ ﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MedicineClient"
@@ -9,32 +9,31 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-           
-                <Style x:Key="buttonStyle" TargetType="Button">
-                    <Setter Property="TextColor" Value="White"/>
-                    <Setter Property="BackgroundColor" Value="Red"/>
-                    <Setter Property="HorizontalOptions" Value="Fill"/>
-                    <Setter Property="Padding" Value="10"/>
-                    <Setter Property="FontFamily" Value="Gurajada"/>
 
-                </Style>
-                <Style x:Key="entryStyle" TargetType="Entry">
-                    <Setter Property="HorizontalOptions" Value="Fill" />
-                </Style>
-                <Style x:Key="labelNameStyle" TargetType="Label">
-                    <Setter Property="FontSize" Value="Small"/>
-                    <Setter Property="FontFamily" Value="Gurajada"/>
-                    <Setter Property="Margin" Value="0,0,0,10"/>
-                    <Setter Property="BackgroundColor" Value="White" />
-                    <Setter Property="TextColor" Value="Black"/>
-                    <Setter/>
-                </Style>
-                <Style x:Key="labelErrorStyle" TargetType="Label">
-                    <Setter Property="HorizontalOptions" Value="End" />
-                    <Setter Property="TextColor" Value="Firebrick" />
-                    <Setter Property="FontSize" Value="Small" />
-                </Style>
-           
+            <!--<Style x:Key="buttonStyle" TargetType="Button">
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="BackgroundColor" Value="Red"/>
+                <Setter Property="HorizontalOptions" Value="Fill"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="FontFamily" Value="Gurajada"/>
+
+            </Style>
+            <Style x:Key="entryStyle" TargetType="Entry">
+                <Setter Property="HorizontalOptions" Value="Fill" />
+            </Style>
+            <Style x:Key="labelNameStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="Small"/>
+                <Setter Property="FontFamily" Value="Gurajada"/>
+                <Setter Property="Margin" Value="0,0,0,10"/>
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter/>
+            </Style>
+            <Style x:Key="labelErrorStyle" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="End" />
+                <Setter Property="TextColor" Value="Firebrick" />
+                <Setter Property="FontSize" Value="Small" />
+            </Style>-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

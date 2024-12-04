@@ -21,6 +21,8 @@ namespace MedicineClient
             builder.Services.AddTransient<RegisterPage>();
             builder.Services.AddSingleton<MedicineWebApi>();
             builder.Services.AddSingleton<ShellViewModel>();
+            builder.Services.AddSingleton<FirstPage>();
+            builder.Services.AddSingleton<FirstPageViewModel>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

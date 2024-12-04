@@ -2,7 +2,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ViewModels="clr-namespace:MedicineClient.ViewModels"
              x:DataType="ViewModels:LoginPageViewModel"
-             BindingContext=""
              x:Class="MedicineClient.Views.LoginPage"
              BackgroundColor="White">
 
