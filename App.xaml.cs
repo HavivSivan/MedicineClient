@@ -1,4 +1,5 @@
 ﻿using MedicineClient.Models;
+using MedicineClient.ViewModels;
 
 namespace MedicineClient
 {
@@ -9,8 +10,10 @@ namespace MedicineClient
         {
             InitializeComponent();
 
-            MainPage = new AppShell();
+            MainPage = new AppShell(vm);
             LoggedInUser = new AppUser();
         }
+        ShellViewModel vm = new ShellViewModel();
+
     }
 }

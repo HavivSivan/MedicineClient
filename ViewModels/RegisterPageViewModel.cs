@@ -18,6 +18,7 @@ namespace MedicineClient.ViewModels
             this.proxy = proxy;
             RegisterCommand = new Command(OnRegister);
             CancelCommand = new Command(OnCancel);
+            ShowPasswordCommand =new Command(OnShowPassword);
             IsPassword = true;
             UsernameError = "Username is required";
             NameError = "Name is required";
