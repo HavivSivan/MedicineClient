@@ -23,7 +23,7 @@ namespace MedicineClient.Services
         private JsonSerializerOptions jsonSerializerOptions;
 
         // כתובת הבסיס לכתובת השרת מותאמת לפי פלטפורמות ההרצה
-        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://zj6frcmf-5155-inspect.euw.devtunnels.ms/" : "http://localhost:5021/api/";
+        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://zwfvqrmp-5155.euw.devtunnels.ms/" : "http://localhost:5155/api/";
 
 
         // אובייקט של מחלקת השירות שמכיל את כתובת הבסיס לשרת

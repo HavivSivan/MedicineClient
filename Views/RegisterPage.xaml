@@ -20,7 +20,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 
-                <Label Text="First Name" Grid.Column="0"  />
+                <Label Text="Username" Grid.Column="0"  />
                 <Label Text="{Binding NameError}" IsVisible="{Binding ShowNameError}" Grid.Column="1" />
             </Grid>
             <Entry Placeholder="Type First Name" Text="{Binding Name}"  />

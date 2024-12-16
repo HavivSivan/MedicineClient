@@ -27,16 +27,20 @@ public class LoginPageViewModel : ViewModelBase
         InServerCall = false;
         errorMsg = "";
         GoRegister = new Command(OnGotoRegister);
+        ShowError = false;
     }
+    private bool showError;
+    public bool ShowError
+    { get => showError; set { showError = value; OnPropertyChanged(nameof(ShowError)); } }
     public MedicineWebApi proxy { get; set; }
     public IServiceProvider serviceProvider { get; set; }
     
     private async void OnGotoRegister()
     {
-        AppShell shell = serviceProvider.GetService<AppShell>();
-        ((App)Application.Current).MainPage = shell;
-        Shell.Current.FlyoutIsPresented = false; 
-        Shell.Current.GoToAsync("RegisterPage"); 
+        errorMsg = "";
+        Name= "";
+        Password = "";
+        ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<RegisterPage>());
         
     }
     private string errorMsg;
@@ -48,6 +52,7 @@ public class LoginPageViewModel : ViewModelBase
             if (errorMsg != value)
             {
                 errorMsg = value;
+                
                 OnPropertyChanged(nameof(ErrorMsg));
             }
         }
@@ -66,16 +71,14 @@ public class LoginPageViewModel : ViewModelBase
         ((App)Application.Current).LoggedInUser = u;
         if (u == null)
         {
+            ShowError = true;
             ErrorMsg = "Invalid Username or password";
         }
         else
         {
+            ShowError = false;
             ErrorMsg = "";
-            AppShell shell = serviceProvider.GetService<AppShell>();
-            FirstPageViewModel firstPageViewModel = serviceProvider.GetService<FirstPageViewModel>();
-            ((App)Application.Current).MainPage = shell;
-            Shell.Current.FlyoutIsPresented = false;
-            Shell.Current.GoToAsync("FirstPage");
+            ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<FirstPage>());
         }
     }
     private string _Name;
