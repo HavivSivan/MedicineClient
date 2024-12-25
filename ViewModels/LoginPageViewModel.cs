@@ -11,12 +11,14 @@ using MedicineClient.Models;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using MedicineClient.Services;
+
 namespace MedicineClient.ViewModels;
 
 public class LoginPageViewModel : ViewModelBase
 {
     public Command LoginCommand { get; }
     public Command GoRegister { get; }
+    public Command GoPharmacyLogin {  get; }
     public LoginPageViewModel(MedicineWebApi proxy, IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
@@ -28,7 +30,11 @@ public class LoginPageViewModel : ViewModelBase
         errorMsg = "";
         GoRegister = new Command(OnGotoRegister);
         ShowError = false;
+        
     }
+   
+        //((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<PharmacyLogin>());
+    
     private bool showError;
     public bool ShowError
     { get => showError; set { showError = value; OnPropertyChanged(nameof(ShowError)); } }
@@ -78,7 +84,8 @@ public class LoginPageViewModel : ViewModelBase
         {
             ShowError = false;
             ErrorMsg = "";
-            ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<FirstPage>());
+            
+            
         }
     }
     private string _Name;

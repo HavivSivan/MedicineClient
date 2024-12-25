@@ -4,10 +4,10 @@
              x:DataType="ViewModels:LoginPageViewModel"
              x:Class="MedicineClient.Views.LoginPage"
              BackgroundColor="White">
-
+       
     <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="30" >
-
-     
+        
+        
         <Label Text="Login" 
                FontSize="32" 
                FontAttributes="Bold" 
@@ -58,5 +58,8 @@
                 IsEnabled="{Binding NotInServerCall}"/>
         <Button Text="Don't have an account?" TextColor="Blue" BackgroundColor="Red" Command="{Binding GoRegister}"/>
 
+        
+        
+        
     </StackLayout>
 </ContentPage>

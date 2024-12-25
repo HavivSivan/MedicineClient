@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MedicineClient.ViewModels
 {
-    public class FirstPageViewModel : ViewModelBase
+    public class AdminPageViewModel
     {
     }
 }

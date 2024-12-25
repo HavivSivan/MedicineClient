@@ -13,7 +13,10 @@ namespace MedicineClient
         private void Routes()
         {
             Routing.RegisterRoute("RegisterPage", typeof(RegisterPage));
-            Routing.RegisterRoute("FirstPage", typeof(FirstPage));
+            Routing.RegisterRoute("LogOut", typeof(LogOut));
+            Routing.RegisterRoute("StatusPage", typeof(StatusPage));
+            Routing.RegisterRoute("AdminPage", typeof(AdminPage));
+            Routing.RegisterRoute("ListingPage", typeof(ListingPage));
         }
     }
 }
