@@ -2,10 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MedicineClient.Views.ListingPage"
-             xmlns:Models="MedicineClient.Models">
+             xmlns:Models="MedicineClient.Models"
+             xmlns:ViewModels="clr-namespace:MedicineClient.ViewModels"
+             x:DataType="ViewModels:ListingPageViewModel"
+             >
     <StackLayout>
-        <RefreshView>
-            <ListView ItemsSource="{Binding MedicineList}">
+        <RefreshView IsRefreshing="{Binding IsRefreshing}" Refreshing="{Binding OnRefresh}">
+            <ListView ItemsSource="{Binding Listing}">
                 <ListView.ItemTemplate>
                     <DataTemplate >
                         <ViewCell>

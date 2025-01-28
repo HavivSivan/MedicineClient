@@ -7,6 +7,9 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
+using System.Security.Cryptography.X509Certificates;
+using Microsoft.VisualBasic;
+using System.Collections.ObjectModel;
 
 
 
@@ -66,6 +69,32 @@ namespace MedicineClient.Services
                 return null;
             }
         }
+        public async Task<List<Medicine>> GetMedicineList()
+        {
+            string url = $"{this.baseUrl}GetMedicineList";
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                string Content = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions opt = new JsonSerializerOptions
+                    {
+
+                    };
+                    List<Medicine> listing = JsonSerializer.Deserialize<List<Medicine>>(Content, opt);
+                    return listing;
+
+
+                }
+                else return null;
+
+            }
+            catch (Exception ex) 
+            {
+                return null;
+            }
+        }
         public async Task<AppUser?> Register(AppUser user)
         {
             //Set URI to the specific function API
@@ -98,7 +127,9 @@ namespace MedicineClient.Services
             {
                 return null;
             }
+            
         }
+        
 
     }
 }
