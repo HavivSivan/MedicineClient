@@ -7,7 +7,7 @@
     Shell.FlyoutBehavior="Disabled"
     Title="MedicineClient"
     xmlns:Views="clr-namespace:MedicineClient.Views">
-    <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate Views:LoginPage}"/>
-    
+    <ShellContent Route="ListingPage" ContentTemplate="{DataTemplate Views:ListingPage}"/>
+    <!--<ShellContent Route="LoginPage" ContentTemplate="{DataTemplate Views:LoginPage}"/>-->
     <!--<ShellContent Route="RegisterPage" ContentTemplate="{DataTemplate Views:RegisterPage}" />-->
 </Shell>

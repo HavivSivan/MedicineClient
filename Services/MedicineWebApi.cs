@@ -16,18 +16,18 @@ namespace MedicineClient.Services
     {
         //מנהל תכונות מתקדמות של בקשות HTTP
         //cookies כמו תמיכה
-        private HttpClient client;
+        private HttpClient client = new HttpClient();
 
         // JSON משתנה זה יכיל את ההגדרות שייקבעו בהמשך כיצד לעבד ולהמיר נתוני
         // בעת שליחת וקבלת בקשות מהשרת
         private JsonSerializerOptions jsonSerializerOptions;
 
         // כתובת הבסיס לכתובת השרת מותאמת לפי פלטפורמות ההרצה
-        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://zwfvqrmp-5155.euw.devtunnels.ms/" : "http://localhost:5155/api/";
+        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://n3ts70gr-5155.euw.devtunnels.ms/api/" : "http://localhost:5155/api/";
 
 
         // אובייקט של מחלקת השירות שמכיל את כתובת הבסיס לשרת
-        private string baseUrl;
+        private string baseUrl = "n3ts70gr-5155.euw.devtunnels.ms/api/";
 
 
         //מאפיין זה מחזיק את פרטי המשתמש לאחר התחברות מוצלחת.

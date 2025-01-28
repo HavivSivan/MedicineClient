@@ -17,7 +17,6 @@ namespace MedicineClient.ViewModels
         {
             this.proxy = proxy;
             RegisterCommand = new Command(OnRegister);
-            CancelCommand = new Command(OnCancel);
             ShowPasswordCommand =new Command(OnShowPassword);
             IsPassword = true;
             UsernameError = "Username is required";
@@ -316,17 +315,11 @@ namespace MedicineClient.ViewModels
 
                     //If the registration failed, display an error message
                     string errorMsg = "Registration failed. Please try again.";
-                    await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
+                    await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "Okay");
                 }
             }
         }
 
-        //Define a method that will be called upon pressing the cancel button
-        public void OnCancel()
-        {
-            //Navigate back to the login page
-            ((App)(Application.Current)).MainPage.Navigation.PopAsync();
-        }
 
     }
 }
