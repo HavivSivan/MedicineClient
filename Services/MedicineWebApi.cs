@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Net.Http.Json;
 using static System.Net.WebRequestMethods;
 using System.Net.Http;
-using GoogleGson;
+
 
 
 
@@ -77,7 +77,8 @@ namespace MedicineClient.Services
         public async Task<bool> DeleteUserAsync(int userId)
         {
             string url = $"{baseUrl}deleteuser";
-            HttpContent content = new HttpContent(userId);
+            string json= JsonSerializer.Serialize(userId);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync(url, content);
             return response.IsSuccessStatusCode;
         }
