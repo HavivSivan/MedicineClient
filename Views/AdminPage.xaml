@@ -1,12 +1,43 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MedicineClient.Views.AdminPage"
-             Title="AdminPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+             xmlns:ViewModels="clr-namespace:MedicineClient.ViewModels"
+             x:DataType="ViewModels:AdminPageViewModel"
+             xmlns:Models="clr-namespace:MedicineClient.Models">
+
+    <VerticalStackLayout Padding="20" Spacing="10">
+        <Entry x:Name="SearchEntry"
+               Placeholder="Enter username to search..."
+               Text="{Binding SearchUsername}" 
+               FontSize="Medium" />
+
+        <Button Text="Search User"
+                Command="{Binding SearchCommand}" />
+        <Frame Padding="15" CornerRadius="10" BackgroundColor="#E0E0E0" IsVisible="{Binding Finishedsearch}">
+            <VerticalStackLayout Spacing="5" x:DataType="Models:AppUser" BindingContext="{Binding SelectedUser}">
+                <Label Text="User Details" FontSize="Large" FontAttributes="Bold" />
+                <Label Text="Username:" FontAttributes="Bold" />
+                <Label Text="{Binding UserName}" />
+                <Label Text="First Name:" FontAttributes="Bold" />
+                <Label Text="{Binding FirstName}" />
+                <Label Text="Email:" FontAttributes="Bold" />
+                <Label Text="{Binding Email}" />
+                <Label Text="User Rank:" FontAttributes="Bold" />
+                <Label Text="{Binding Rank}"/>
+            </VerticalStackLayout>
+        </Frame>
+        <Button Text="Delete User"
+                Command="{Binding DeleteCommand}"
+                BackgroundColor="Red"
+                TextColor="White"
+                IsVisible="{Binding Finishedsearch}"
+                IsEnabled="{Binding Finishedsearch}" />
+
+        <Label Text="{Binding StatusMessage}" 
+               TextColor="Red"
+               FontAttributes="Italic"
+               HorizontalOptions="Center" />
+
     </VerticalStackLayout>
+
 </ContentPage>

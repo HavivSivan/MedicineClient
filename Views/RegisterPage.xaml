@@ -6,26 +6,20 @@
              x:DataType="viewmodels:RegisterPageViewModel"
              Title="Register">
     <Grid>
-
-
-        <!-- Main Content -->
         <VerticalStackLayout IsEnabled="{Binding NotInServerCall}" Padding="20">
             <Label Text="First Name" />
             <Entry Placeholder="Type Username" Text="{Binding Username}" />
             <Label Text="{Binding Username}" IsVisible="{Binding ShowUsernameError}"/>
-            <!-- First Name -->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                
+
                 <Label Text="Username" Grid.Column="0"  />
                 <Label Text="{Binding NameError}" IsVisible="{Binding ShowNameError}" Grid.Column="1" />
             </Grid>
             <Entry Placeholder="Type First Name" Text="{Binding Name}"  />
-
-            <!-- Last Name -->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -35,8 +29,6 @@
                 <Label Text="{Binding LastNameError}" IsVisible="{Binding ShowLastNameError}" Grid.Column="1"  />
             </Grid>
             <Entry Placeholder="Type Last Name" Text="{Binding LastName}"/>
-
-            <!-- Email -->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -46,8 +38,6 @@
                 <Label Text="{Binding EmailError}" IsVisible="{Binding ShowEmailError}" Grid.Column="1"/>
             </Grid>
             <Entry Placeholder="Type Email" Text="{Binding Email}"/>
-
-            <!-- Password -->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -64,8 +54,6 @@
                 <Entry Grid.Column="0" Placeholder="Type Password" Text="{Binding Password}" IsPassword="{Binding IsPassword}"/>
                 <ImageButton Grid.Column="1" HeightRequest="25" Source="passwordeye.png" Command="{Binding ShowPasswordCommand}" />
             </Grid>
-
-            <!-- Register and Cancel Buttons -->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -75,7 +63,6 @@
                 <Button Text="Cancel" Command="{Binding CancelCommand}" IsEnabled="{Binding NotInServerCall}" Grid.Column="0"/>
             </Grid>
         </VerticalStackLayout>
-        <!-- Centered ActivityIndicator -->
         <ActivityIndicator IsRunning="{Binding InServerCall}" 
                    Color="Red" 
                    VerticalOptions="Center" 

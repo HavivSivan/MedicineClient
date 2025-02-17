@@ -32,8 +32,6 @@ public class LoginPageViewModel : ViewModelBase
         ShowError = false;
         
     }
-   
-        //((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<PharmacyLogin>());
     
     private bool showError;
     public bool ShowError
@@ -68,12 +66,9 @@ public class LoginPageViewModel : ViewModelBase
     {
         InServerCall = true;
         ErrorMsg = "";
-        //Call the server to login
-        LoginInfo loginInfo = new LoginInfo { Username = Name, Password = Password };
+        LoginInfo loginInfo = new LoginInfo { username = Name, password = Password };
         AppUser? u = await this.proxy.LoginAsync(loginInfo);
-
         InServerCall = false;
-
         ((App)Application.Current).LoggedInUser = u;
         if (u == null)
         {
@@ -84,8 +79,8 @@ public class LoginPageViewModel : ViewModelBase
         {
             ShowError = false;
             ErrorMsg = "";
-            
-            
+            ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<ListingPage>());
+
         }
     }
     private string _Name;

@@ -1,5 +1,6 @@
 ﻿using MedicineClient.ViewModels;
 using MedicineClient.Views;
+using Microsoft.Maui.Controls;
 namespace MedicineClient
 {
     public partial class AppShell : Shell

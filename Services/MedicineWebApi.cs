@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Net.Http.Json;
 using static System.Net.WebRequestMethods;
+using System.Net.Http;
 
 
 
@@ -14,44 +16,37 @@ namespace MedicineClient.Services
 {
     public class MedicineWebApi
     {
-        //מנהל תכונות מתקדמות של בקשות HTTP
-        //cookies כמו תמיכה
+        public MedicineWebApi()
+        {
+            client=new HttpClient();
+            jsonSerializerOptions=new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive=false
+            };
+            LoggedInUser=new AppUser();
+        }
+  
         private HttpClient client;
 
-        // JSON משתנה זה יכיל את ההגדרות שייקבעו בהמשך כיצד לעבד ולהמיר נתוני
-        // בעת שליחת וקבלת בקשות מהשרת
         private JsonSerializerOptions jsonSerializerOptions;
+        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://jnx64rw2-5155.euw.devtunnels.ms/api/" : "http://localhost:5155/api/";
 
-        // כתובת הבסיס לכתובת השרת מותאמת לפי פלטפורמות ההרצה
-        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://zwfvqrmp-5155.euw.devtunnels.ms/" : "http://localhost:5155/api/";
-
-
-        // אובייקט של מחלקת השירות שמכיל את כתובת הבסיס לשרת
-        private string baseUrl;
-
-
-        //מאפיין זה מחזיק את פרטי המשתמש לאחר התחברות מוצלחת.
-        //ניתן להשתמש בו לצורך בדיקה או שליפה של מידע על המשתמש המחובר
+        private string baseUrl = "https://jnx64rw2-5155.euw.devtunnels.ms/api/";
         public AppUser LoggedInUser { get; set; }
         public async Task<AppUser?> LoginAsync(LoginInfo userInfo)
         {
-            //Set URI to the specific function API
             string url = $"{this.baseUrl}login";
             try
             {
-                //Call the server API
                 string json = JsonSerializer.Serialize(userInfo);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
-                //Check status
                 if (response.IsSuccessStatusCode)
                 {
-                    //Extract the content as string
                     string resContent = await response.Content.ReadAsStringAsync();
-                    //Desrialize result
                     JsonSerializerOptions options = new JsonSerializerOptions
                     {
-                        PropertyNameCaseInsensitive = true
+                        
                     };
                     AppUser? result = JsonSerializer.Deserialize<AppUser>(resContent, options);
                     return result;
@@ -66,40 +61,128 @@ namespace MedicineClient.Services
                 return null;
             }
         }
+        public async Task<AppUser> GetUserByUsernameAsync(string username)
+        {
+            string url = $"{this.baseUrl}getuserbyusername";
+            var response = await client.GetAsync($"{url}?username={username}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<AppUser>();
+            }
+            Console.WriteLine("failed");
+            return null;
+        }
+
+        public async Task<bool> DeleteUserAsync(int userId)
+        {
+            var response = await client.DeleteAsync($"{baseUrl}{userId}");
+            return response.IsSuccessStatusCode;
+        }
+
         public async Task<AppUser?> Register(AppUser user)
         {
-            //Set URI to the specific function API
             string url = $"{this.baseUrl}register";
             try
             {
-                //Call the server API
                 string json = JsonSerializer.Serialize(user);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
-                //Check status
+
                 if (response.IsSuccessStatusCode)
                 {
-                    //Extract the content as string
                     string resContent = await response.Content.ReadAsStringAsync();
-                    //Desrialize result
                     JsonSerializerOptions options = new JsonSerializerOptions
                     {
-                        PropertyNameCaseInsensitive = true
+                        PropertyNameCaseInsensitive=false
+
                     };
+                    
                     AppUser? result = JsonSerializer.Deserialize<AppUser>(resContent, options);
+                    Console.WriteLine($"Response Content: {resContent}");
                     return result;
                 }
                 else
                 {
+                    string errorContent = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Server returned error: {response.StatusCode}, {errorContent}");
                     return null;
                 }
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Exception during registration: {ex.Message}");
                 return null;
             }
         }
 
+    
+    public async Task<List<Medicine>> GetMedicinesAsync()
+        {
+            try
+            {
+                Console.WriteLine("Fetching medicines for the pharmacy...");
+                var response = await client.GetAsync($"{baseUrl}/getmedicines");
+                if (response.IsSuccessStatusCode)
+                {
+                    var medicines = await response.Content.ReadFromJsonAsync<List<Medicine>>();
+                    Console.WriteLine($"Fetched {medicines?.Count} medicines.");
+                    return medicines ?? new List<Medicine>();
+                }
+                Console.WriteLine($"Failed to fetch medicines. Status: {response.StatusCode}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching medicines: {ex.Message}");
+            }
+
+            return new List<Medicine>();
+        }
+        public async Task<bool> UpdateMedicineAsync(Medicine medicine)
+        {
+            try
+            {
+                Console.WriteLine($"Updating medicine ID {medicine.MedicineId} to status {medicine.Status.Mstatus}...");
+                var response = await client.PutAsJsonAsync($"{baseUrl}medicines/{medicine.MedicineId}", medicine);
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Medicine updated successfully.");
+                    return true;
+                }
+                Console.WriteLine($"Failed to update medicine. Status: {response.StatusCode}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating medicine: {ex.Message}");
+            }
+
+            return false;
+        }
+        public async Task<List<Medicine>> GetMedicineList()
+        {
+            string url = $"{this.baseUrl}GetMedicineList";
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                string Content = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    JsonSerializerOptions opt = new JsonSerializerOptions
+                    {
+
+                    };
+                    List<Medicine> listing = JsonSerializer.Deserialize<List<Medicine>>(Content, opt);
+                    return listing;
+
+
+                }
+                else return null;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }
 

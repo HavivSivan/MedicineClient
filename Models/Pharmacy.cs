@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 
+
 namespace MedicineClient.Models
 {
     public class Pharmacy
@@ -11,12 +12,14 @@ namespace MedicineClient.Models
         public string Name { get; set; } = null!;
         public string Adress { get; set; } = null!;
 
-        public int Phone { get; set; }
+        public string Phone { get; set; }
+        public AppUser User { get; set; }
 
         public Pharmacy() { }
-        public Pharmacy(int Id, string name, string adress, int phone)
+        public Pharmacy(int Id, string name, string adress, string phone, AppUser user)
         {
-           this.Id= Id; this.Name= name; this.Adress = adress; this.Phone = phone;
+            this.Id= Id; this.Name= name; this.Adress = adress; this.Phone = phone;
+            User=user;
         }
     }
 }

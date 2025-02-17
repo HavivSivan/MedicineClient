@@ -5,24 +5,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MedicineClient.Models
 {
-    public class Order
+    public class MedicineStatus
     {
-        public int Id { get; set; }
-
-        public int MedicineId { get; set; }
-        public int UserId { get; set; }
-        public string Receiver { get; set; }
-
-        public string Sender { get; set; }
-
-        public Order() { }
-        public Order(int id, int medicineId, int userId, string receiver, string sender)
+        public int StatusId { get; set; }
+        public string Mstatus { get; set; }
+        public string Notes { get; set; }
+        public MedicineStatus() { }
+        public MedicineStatus(int StatusId, string Mstatus, string Notes)
         {
-            this.Id = id;
-            this.MedicineId = medicineId;
-            this.UserId = userId;
-            this.Receiver = receiver;
-            this.Sender = sender;
+            this.StatusId=StatusId;
+            this.Mstatus= Mstatus;
+            this.Notes=Notes;
         }
     }
 }

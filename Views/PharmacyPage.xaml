@@ -1,12 +1,43 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MedicineClient.ViewModels.PharmacyPage"
-             Title="PharmacyPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
-</ContentPage>
+             xmlns:Views="clr-namespace:MedicineClient.Views"
+             x:Class="MedicineClient.Views.PharmacyPage"
+             xmlns:ViewModels="clr-namespace:MedicineClient.ViewModels"
+             xmlns:Models="clr-namespace:MedicineClient.Models"
+             x:DataType="ViewModels:PharmacyPageViewModel"
+             >
+    <VerticalStackLayout Padding="20" Spacing="10">
+        <Label Text="Manage Medicines" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center" />
+
+        <CollectionView ItemsSource="{Binding Medicines}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="10" CornerRadius="10" BackgroundColor="#FFFFFF" Margin="5">
+                        <VerticalStackLayout x:DataType="Models:Medicine">
+                            <Label Text="{Binding MedicineName}" FontSize="Medium" FontAttributes="Bold" />
+                            <Label Text="{Binding BrandName}" />
+                            <Label x:DataType="Models:MedicineStatus" Text="{Binding Mstatus}" />
+
+                            <Entry Placeholder="Leave a note..." x:DataType="Models:MedicineStatus" Text="{Binding Notes}"  />
+
+                            <HorizontalStackLayout Spacing="10">
+                                <Button Text="Approve" 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ApproveCommand}" 
+                                        CommandParameter="{Binding .}" 
+                                        BackgroundColor="Green" TextColor="White" />
+                                <Button Text="Deny" 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DenyCommand}" 
+                                        CommandParameter="{Binding .}" 
+                                        BackgroundColor="Red" TextColor="White" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Label Text="{Binding StatusMessage}" TextColor="Red" FontAttributes="Italic" HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+
+    </ContentPage>

@@ -1,7 +1,8 @@
 using MedicineClient.ViewModels;
-namespace MedicineClient.ViewModels;
+using MedicineClient.Views;
+namespace MedicineClient.Views;
 
-public partial class PharmacyPage : ContentPage
+public partial class PharmacyPage
 {
 	public PharmacyPage(PharmacyPageViewModel vm)
 	{

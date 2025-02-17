@@ -278,7 +278,6 @@ namespace MedicineClient.ViewModels
         public Command RegisterCommand { get; }
         public Command CancelCommand { get; }
 
-        //Define a method that will be called when the register button is clicked
         public async void OnRegister()
         {
             ValidateUsername();
@@ -289,42 +288,38 @@ namespace MedicineClient.ViewModels
 
             if (!ShowNameError && !ShowLastNameError && !ShowEmailError && !ShowPasswordError)
             {
-                //Create a new AppUser object with the data from the registration form
+
                 var newUser = new AppUser
                 {
-                    UserName = Name,
+                    UserName = Username,
+                    FirstName = Name,
                     LastName = LastName,
-                    UserEmail = Email,
+                    Email = Email,
                     UserPassword = Password,
-                    Rank = 1
+                    Rank = 3,
+                    Id=0
                 };
 
-                //Call the Register method on the proxy to register the new user
                 InServerCall = true;
                 newUser = await proxy.Register(newUser);
                 InServerCall = false;
-
-                //If the registration was successful, navigate to the login page
                 if (newUser != null)
                 {
-                    InServerCall = false;
-
+                    InServerCall = true;
                     ((App)(Application.Current)).MainPage.Navigation.PopAsync();
+                    InServerCall=false;
                 }
                 else
                 {
-
-                    //If the registration failed, display an error message
+                    
                     string errorMsg = "Registration failed. Please try again.";
                     await Application.Current.MainPage.DisplayAlert("Registration", errorMsg, "ok");
                 }
             }
         }
 
-        //Define a method that will be called upon pressing the cancel button
         public void OnCancel()
         {
-            //Navigate back to the login page
             ((App)(Application.Current)).MainPage.Navigation.PopAsync();
         }
 
