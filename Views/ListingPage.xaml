@@ -2,15 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MedicineClient.Views.ListingPage"
-             xmlns:Models="MedicineClient.Models"
+             xmlns:Models="clr-namespace:MedicineClient.Models"
              xmlns:ViewModels="clr-namespace:MedicineClient.ViewModels"
              x:DataType="ViewModels:ListingPageViewModel"
              >
     <StackLayout>
-        <RefreshView IsRefreshing="{Binding IsRefreshing}" Refreshing="{Binding OnRefresh}">
+        <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding OnRefresh}">
             <ListView ItemsSource="{Binding Listing}">
                 <ListView.ItemTemplate>
-                    <DataTemplate >
+                    <DataTemplate x:DataType="Models:Medicine">
                         <ViewCell>
                             <Grid Padding="10">
                                 <Grid.RowDefinitions>
@@ -22,7 +22,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Column="1"
-                           Text="{Binding Name}"
+                           Text="{Binding MedicineName}"
                            FontAttributes="Bold" />
 
                             </Grid>

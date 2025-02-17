@@ -8,8 +8,9 @@
     Title="MedicineClient"
     xmlns:Views="clr-namespace:MedicineClient.Views">
     <!--<ShellContent Route="LoginPage" ContentTemplate="{DataTemplate Views:LoginPage}"/>-->
-    <ShellContent Route="AdminPage" ContentTemplate="{DataTemplate Views:AdminPage}"/>
+    <!--<ShellContent Route="AdminPage" ContentTemplate="{DataTemplate Views:AdminPage}"/>-->
     <!--<ShellContent Route="PharmacyPage" ContentTemplate="{DataTemplate Views:PharmacyPage}"/>-->
+    <ShellContent Route="ListingPage" ContentTemplate="{DataTemplate Views:ListingPage}"/>
     <TabBar>
         <ShellContent
             Title="Logout"
