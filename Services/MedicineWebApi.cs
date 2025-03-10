@@ -12,6 +12,7 @@ using System.Net.Http;
 
 
 
+
 namespace MedicineClient.Services
 {
     public class MedicineWebApi
@@ -29,9 +30,9 @@ namespace MedicineClient.Services
         private HttpClient client;
 
         private JsonSerializerOptions jsonSerializerOptions;
-        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://jnx64rw2-5155.euw.devtunnels.ms/api/" : "http://localhost:5155/api/";
+        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://f2vbbrsc-5155.euw.devtunnels.ms/api/" : "http://localhost:5155/api/";
 
-        private string baseUrl = "https://jnx64rw2-5155.euw.devtunnels.ms/api/";
+        private string baseUrl = "https://f2vbbrsc-5155.euw.devtunnels.ms/api/";
         public AppUser LoggedInUser { get; set; }
         public async Task<AppUser?> LoginAsync(LoginInfo userInfo)
         {
@@ -75,7 +76,10 @@ namespace MedicineClient.Services
 
         public async Task<bool> DeleteUserAsync(int userId)
         {
-            var response = await client.DeleteAsync($"{baseUrl}{userId}");
+            string url = $"{baseUrl}deleteuser";
+            string json= JsonSerializer.Serialize(userId);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(url, content);
             return response.IsSuccessStatusCode;
         }
 
@@ -176,7 +180,6 @@ namespace MedicineClient.Services
 
                 }
                 else return null;
-
             }
             catch (Exception ex)
             {

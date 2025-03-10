@@ -18,6 +18,7 @@ namespace MedicineClient
             Routing.RegisterRoute("StatusPage", typeof(StatusPage));
             Routing.RegisterRoute("AdminPage", typeof(AdminPage));
             Routing.RegisterRoute("ListingPage", typeof(ListingPage));
+            Routing.RegisterRoute("PharmacyPage", typeof(PharmacyPage));
         }
     }
 }

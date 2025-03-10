@@ -9,11 +9,11 @@ namespace MedicineClient
         public App()
         {
             InitializeComponent();
-
+            ShellViewModel vm = new ShellViewModel();
             MainPage = new AppShell(vm);
             LoggedInUser = new AppUser();
         }
-        ShellViewModel vm = new ShellViewModel();
+        
 
     }
 }

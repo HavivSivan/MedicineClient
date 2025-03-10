@@ -66,6 +66,7 @@ public class LoginPageViewModel : ViewModelBase
     {
         InServerCall = true;
         ErrorMsg = "";
+        ShowError = false;
         LoginInfo loginInfo = new LoginInfo { username = Name, password = Password };
         AppUser? u = await this.proxy.LoginAsync(loginInfo);
         InServerCall = false;
@@ -77,9 +78,16 @@ public class LoginPageViewModel : ViewModelBase
         }
         else
         {
-            ShowError = false;
-            ErrorMsg = "";
-            ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<ListingPage>());
+            ShowError = true;
+            ErrorMsg = "Login Successful";
+            if (((App)Application.Current).LoggedInUser.Rank== 1)
+            {
+                ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<AdminPage>());
+            }
+            else if (((App)Application.Current).LoggedInUser.Rank== 2)
+                ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<PharmacyPage>());
+            else if (((App)Application.Current).LoggedInUser.Rank == 3)
+                ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<ListingPage>());
 
         }
     }
