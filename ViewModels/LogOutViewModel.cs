@@ -1,29 +1,51 @@
-﻿using MedicineClient.Models;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
+﻿using System.Windows.Input;
+using Microsoft.Maui.Controls;
 using System.Threading.Tasks;
+using System;
+using MedicineClient.Models;
 using MedicineClient.Views;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MedicineClient.ViewModels
 {
     public class LogOutViewModel : ViewModelBase
     {
-        LogOutViewModel(IServiceProvider serviceProvider)
-        {
-            Logout = new Command(OnLogout);
-            this.serviceProvider = serviceProvider;
-        }
-        IServiceProvider serviceProvider;
+        public ICommand LogoutCommand { get; }
 
-        Command Logout { get; }
-        private async void OnLogout()
+        public LogOutViewModel(IServiceProvider serviceProvider)
+        {
+            LogoutCommand = new Command(async () => await ShowLogoutAlert());
+            this.service = serviceProvider;
+        }
+        private IServiceProvider service;
+        private async Task ShowLogoutAlert()
+        {
+            string action = await Application.Current.MainPage.DisplayActionSheet(
+                "Choose an option",
+                "Cancel",
+                null,
+                "Log Out",
+                "Exit App");
+
+            if (action == "Log Out")
+            {
+                await Logout();
+            }
+            else if (action == "Exit App")
+            {
+                ExitApp();
+            }
+        }
+
+        private async Task Logout()
         {
             ((App)Application.Current).LoggedInUser  = new AppUser();
-            ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<LoginPage>());
+            ((App)Application.Current).MainPage.Navigation.PushAsync(service.GetService<LoginPage>());
+        }
+
+        private void ExitApp()
+        {
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
     }
 }

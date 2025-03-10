@@ -7,7 +7,7 @@
              x:DataType="ViewModels:ListingPageViewModel"
              >
     <StackLayout>
-        <RefreshView IsRefreshing="{Binding IsRefreshing}" Refreshing="{Binding OnRefresh}">
+        <RefreshView >
             <ListView ItemsSource="{Binding Listing}">
                 <ListView.ItemTemplate>
                     <DataTemplate >
@@ -22,7 +22,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Column="1"
-                           Text="{Binding Name}"
+                           Text=""
                            FontAttributes="Bold" />
 
                             </Grid>

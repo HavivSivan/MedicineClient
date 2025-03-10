@@ -2,6 +2,21 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MedicineClient.Views.LogOut"
-             >
-    <Label Text="Loading..." TextColor="Black"/>
+             Title="Logout">
+
+    <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center">
+        <Label Text="Are you sure you want to log out or exit?"
+               FontSize="20"
+               HorizontalOptions="Center"
+               TextColor="Black"/>
+
+        <Button Text="Logout / Exit"
+                Command="{Binding LogoutCommand}"
+                BackgroundColor="Red"
+                TextColor="White"
+                FontSize="18"
+                CornerRadius="10"
+                Padding="10"
+                HorizontalOptions="Center"/>
+    </VerticalStackLayout>
 </ContentPage>
