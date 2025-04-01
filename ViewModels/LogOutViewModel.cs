@@ -40,7 +40,7 @@ namespace MedicineClient.ViewModels
         private async Task Logout()
         {
             var loginPage = service.GetRequiredService<LoginPage>();
-
+            ((App)Application.Current).LoggedInUser=new AppUser();
             Application.Current.MainPage = new NavigationPage(loginPage);
         }
 
