@@ -297,7 +297,8 @@ namespace MedicineClient.ViewModels
                     Email = Email,
                     UserPassword = Password,
                     Rank = 3,
-                    Id=0
+                    Id=0,
+                    Active=true
                 };
 
                 InServerCall = true;

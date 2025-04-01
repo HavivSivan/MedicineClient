@@ -7,7 +7,7 @@
              Title="Register">
     <Grid>
         <VerticalStackLayout IsEnabled="{Binding NotInServerCall}" Padding="20">
-            <Label Text="First Name" />
+            <Label Text="Username" Grid.Column="0"  />
             <Entry Placeholder="Type Username" Text="{Binding Username}" />
             <Label Text="{Binding Username}" IsVisible="{Binding ShowUsernameError}"/>
             <Grid>
@@ -16,7 +16,8 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Text="Username" Grid.Column="0"  />
+                
+                <Label Text="First Name" />
                 <Label Text="{Binding NameError}" IsVisible="{Binding ShowNameError}" Grid.Column="1" />
             </Grid>
             <Entry Placeholder="Type First Name" Text="{Binding Name}"  />

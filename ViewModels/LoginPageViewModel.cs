@@ -78,17 +78,7 @@ public class LoginPageViewModel : ViewModelBase
         }
         else
         {
-            ShowError = true;
-            ErrorMsg = "Login Successful";
-            if (((App)Application.Current).LoggedInUser.Rank== 1)
-            {
-                ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<AdminPage>());
-            }
-            else if (((App)Application.Current).LoggedInUser.Rank== 2)
-                ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<PharmacyPage>());
-            else if (((App)Application.Current).LoggedInUser.Rank == 3)
-                ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<ListingPage>());
-
+            Application.Current.MainPage = new AppShell(u);
         }
     }
     private string _Name;

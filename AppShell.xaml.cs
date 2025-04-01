@@ -1,24 +1,33 @@
 ﻿using MedicineClient.ViewModels;
 using MedicineClient.Views;
-using Microsoft.Maui.Controls;
+using MedicineClient.Models;
 namespace MedicineClient
 {
     public partial class AppShell : Shell
     {
-        public AppShell(ShellViewModel vm)
+        public AppShell(AppUser currentUser)
         {
             InitializeComponent();
-            this.BindingContext = vm;
-            Routes();
+            // Common Pages
+            Items.Add(CreateTab("Listing", typeof(ListingPage)));
+            Items.Add(CreateTab("Status", typeof(StatusPage)));
+            Items.Add(CreateTab("Logout", typeof(LogOut)));
+
+            // Conditional Pages
+            if (currentUser.Rank == 1) // Admin
+                Items.Insert(0, CreateTab("Admin", typeof(AdminPage)));
+
+            if (currentUser.Rank == 2) // Pharmacy
+                Items.Insert(0, CreateTab("Pharmacy", typeof(PharmacyPage)));
         }
-        private void Routes()
+
+        private ShellContent CreateTab(string title, Type pageType)
         {
-            Routing.RegisterRoute("RegisterPage", typeof(RegisterPage));
-            Routing.RegisterRoute("LogOut", typeof(LogOut));
-            Routing.RegisterRoute("StatusPage", typeof(StatusPage));
-            Routing.RegisterRoute("AdminPage", typeof(AdminPage));
-            Routing.RegisterRoute("ListingPage", typeof(ListingPage));
-            Routing.RegisterRoute("PharmacyPage", typeof(PharmacyPage));
+            return new ShellContent
+            {
+                Title = title,
+                ContentTemplate = new DataTemplate(pageType)
+            };
         }
     }
 }

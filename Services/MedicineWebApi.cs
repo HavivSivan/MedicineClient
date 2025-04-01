@@ -30,9 +30,9 @@ namespace MedicineClient.Services
         private HttpClient client;
 
         private JsonSerializerOptions jsonSerializerOptions;
-        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://f2vbbrsc-5155.euw.devtunnels.ms/api/" : "http://localhost:5155/api/";
+        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://jnx64rw2-5155.euw.devtunnels.ms/api/" : "http://localhost:5155/api/";
 
-        private string baseUrl = "https://f2vbbrsc-5155.euw.devtunnels.ms/api/";
+        private string baseUrl = "https://jnx64rw2-5155.euw.devtunnels.ms/api/";
         public AppUser LoggedInUser { get; set; }
         public async Task<AppUser?> LoginAsync(LoginInfo userInfo)
         {
@@ -47,9 +47,10 @@ namespace MedicineClient.Services
                     string resContent = await response.Content.ReadAsStringAsync();
                     JsonSerializerOptions options = new JsonSerializerOptions
                     {
-                        
+                        PropertyNameCaseInsensitive=true
                     };
                     AppUser? result = JsonSerializer.Deserialize<AppUser>(resContent, options);
+                    Console.WriteLine("Rank: "+result.Rank);
                     return result;
                 }
                 else
@@ -74,12 +75,12 @@ namespace MedicineClient.Services
             return null;
         }
 
-        public async Task<bool> DeleteUserAsync(int userId)
+        public async Task<bool> EnableUserAsync(int userId)
         {
-            string url = $"{baseUrl}deleteuser";
-            string json= JsonSerializer.Serialize(userId);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(url, content);
+            string url = $"{baseUrl}enableuser?id={userId}"; 
+
+            var response = await client.PostAsync(url, null); 
+
             return response.IsSuccessStatusCode;
         }
 
@@ -163,7 +164,7 @@ namespace MedicineClient.Services
         }
         public async Task<List<Medicine>> GetMedicineList()
         {
-            string url = $"{this.baseUrl}GetMedicineList";
+            string url = $"{this.baseUrl}getmedicines";
             try
             {
                 HttpResponseMessage response = await client.GetAsync(url);
@@ -172,7 +173,7 @@ namespace MedicineClient.Services
                 {
                     JsonSerializerOptions opt = new JsonSerializerOptions
                     {
-
+                        PropertyNameCaseInsensitive = true
                     };
                     List<Medicine> listing = JsonSerializer.Deserialize<List<Medicine>>(Content, opt);
                     return listing;

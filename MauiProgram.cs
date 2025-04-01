@@ -25,11 +25,11 @@ namespace MedicineClient
             builder.Services.AddSingleton<LogOut>();
             builder.Services.AddSingleton<AdminPageViewModel>();
             builder.Services.AddTransient<AdminPage>();
-            builder.Services.AddSingleton<ListingPageViewModel>();
             builder.Services.AddTransient<ListingPage>();
             builder.Services.AddSingleton<PharmacyPage>();
             builder.Services.AddTransient<PharmacyPageViewModel>();
             builder.Services.AddSingleton<MedicineWebApi>();
+            builder.Services.AddTransient<ListingPageViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

@@ -23,7 +23,7 @@
                HeightRequest="50"
                WidthRequest="250"
                HorizontalTextAlignment="Center"
-               Keyboard="Text" 
+               Keyboard="Plain" 
                Text="{Binding Name}" FontFamily="Gurajada"/>
 
        
@@ -36,8 +36,8 @@
                HeightRequest="50"
                WidthRequest="250"
                HorizontalTextAlignment="Center"
-               Keyboard="Text"
-               Text="{Binding Password}" FontFamily="Gurajada"/>
+               Keyboard="Plain"
+               Text="{Binding Password}" FontFamily="Gurajada" />
 
         <Label  Text="{Binding ErrorMsg}"
                 IsVisible="{Binding ShowError}"

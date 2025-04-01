@@ -9,7 +9,7 @@
              >
     <VerticalStackLayout Padding="20" Spacing="10">
         <Label Text="Manage Medicines" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center" />
-
+        <Label Text="{Binding Response}"/>
         <CollectionView ItemsSource="{Binding Medicines}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>

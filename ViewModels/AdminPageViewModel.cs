@@ -37,7 +37,7 @@ namespace MedicineClient.ViewModels
         }
 
         public Command SearchCommand { get; }
-        public Command DeleteCommand { get; }
+        public Command EnableCommand { get; }
 
         public AdminPageViewModel(MedicineWebApi WebService)
         {
@@ -45,7 +45,7 @@ namespace MedicineClient.ViewModels
             SelectedUser=new AppUser();
             this.WebService = WebService;
             SearchCommand = new Command(async () => await SearchUser());
-            DeleteCommand = new Command(async () => await DeleteUser(), () => SelectedUser != null);
+            EnableCommand = new Command(async () => await EnableUserAsync(), () => SelectedUser != null);
         }
 
         private async Task SearchUser()
@@ -57,7 +57,7 @@ namespace MedicineClient.ViewModels
 
         }
 
-        private async Task DeleteUser()
+        private async Task EnableUserAsync()
         {
             if (SelectedUser.Rank == 1)
             {
@@ -65,9 +65,10 @@ namespace MedicineClient.ViewModels
                 return;
             }
 
-            bool success = await WebService.DeleteUserAsync(SelectedUser!.Id);
-            StatusMessage = success ? "User deleted successfully." : "Failed to delete user.";
-            if (success) SelectedUser = null;
+            bool success = await WebService.EnableUserAsync(SelectedUser.Id);
+            StatusMessage = success ? "User disabled/enabled successfully." : "Fail";
+            selectedUser.Active=!selectedUser.Active;
+            OnPropertyChanged(nameof(SelectedUser.Active));
         }
 
 

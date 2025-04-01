@@ -9,55 +9,61 @@ using MedicineClient.Models;
 using System.Windows.Input;
 using MedicineClient.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-
 namespace MedicineClient.ViewModels
 {
     public class ListingPageViewModel : ViewModelBase
     {
-        MedicineWebApi proxy;
-        ServiceProvider serviceProvider;
-        
-        public ListingPageViewModel(MedicineWebApi proxy, ServiceProvider serviceProvider)
+        private readonly MedicineWebApi proxy;
+
+        public ListingPageViewModel(MedicineWebApi proxy)
         {
-            try
-            {
-                this.proxy = proxy;
-                this.serviceProvider = serviceProvider;
-                Listing = new ObservableCollection<Medicine>(temp);
-                OnRefresh = new Command(Refresh);
-                IsRefreshing = false;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            this.proxy = proxy;
+            Listing = new ObservableCollection<Medicine>();
+            OnRefresh = new Command(async () => await Refresh());
+            IsRefreshing = false;
+
+            _ = LoadMedicines(); 
         }
+
         private ObservableCollection<Medicine> listing;
         public ObservableCollection<Medicine> Listing
         {
-            get => listing; set { listing = value; OnPropertyChanged(); }
+            get => listing;
+            set { listing = value; OnPropertyChanged(); }
         }
-        static private List<Medicine> temp;
-        private async void GetMedicineList()
-        {
-            temp = proxy.GetMedicineList().Result;
-        }
+
         public Command OnRefresh { get; }
-        private async void Refresh()
+
+        private bool isRefreshing;
+        public bool IsRefreshing
+        {
+            get => isRefreshing;
+            set { isRefreshing = value; OnPropertyChanged(); }
+        }
+
+        private async Task LoadMedicines()
+        {
+            try
+            {
+                var allMedicines = await proxy.GetMedicineList();
+                var approved = allMedicines.Where(m => m.Status.Mstatus=="Approved").ToList();
+                Listing = new ObservableCollection<Medicine>(approved);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading medicines: {ex.Message}");
+            }
+        }
+
+        private async Task Refresh()
         {
             if (!IsRefreshing)
             {
                 IsRefreshing = true;
-                GetMedicineList();
+                await LoadMedicines();
                 IsRefreshing = false;
-                Listing = new ObservableCollection<Medicine>(temp);
             }
         }
-        
-        private bool isRefreshing;
-        public bool IsRefreshing
-        {
-            get => isRefreshing; set { isRefreshing = value; OnPropertyChanged(); }
-        }
     }
+
 }

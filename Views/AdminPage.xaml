@@ -24,10 +24,12 @@
                 <Label Text="{Binding Email}" />
                 <Label Text="User Rank:" FontAttributes="Bold" />
                 <Label Text="{Binding Rank}"/>
+                <Label Text="Active:" FontAttributes="Bold" />
+                <Label Text="{Binding Active}"/>
             </VerticalStackLayout>
         </Frame>
-        <Button Text="Delete User"
-                Command="{Binding DeleteCommand}"
+        <Button Text="Enable/Disable User"
+                Command="{Binding EnableCommand}"
                 BackgroundColor="Red"
                 TextColor="White"
                 IsVisible="{Binding Finishedsearch}"

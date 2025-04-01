@@ -11,7 +11,7 @@ namespace MedicineClient.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserPassword { get; set; }
-
+        public bool Active { get; set; }
         public int Rank { get; set; }
 
         public int Id { get; set; }
@@ -19,6 +19,7 @@ namespace MedicineClient.Models
         public AppUser(int id, string username, string firstname, string lastname, string useremail, string userpassword, int rank) 
         {
             this.Id = id; this.UserName = username; this.FirstName = firstname; this.LastName=lastname; this.Email = useremail; this.UserPassword = userpassword; this.Rank = rank;
+            Active = true;
         }
        
     }

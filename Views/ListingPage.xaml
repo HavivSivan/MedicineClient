@@ -2,29 +2,40 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MedicineClient.Views.ListingPage"
-             xmlns:Models="MedicineClient.Models"
+             xmlns:Models="clr-namespace:MedicineClient.Models"
              xmlns:ViewModels="clr-namespace:MedicineClient.ViewModels"
              x:DataType="ViewModels:ListingPageViewModel"
+             
              >
     <StackLayout>
         <RefreshView >
-            <ListView ItemsSource="{Binding Listing}">
+            <ListView ItemsSource="{Binding Listing}" HasUnevenRows="True">
                 <ListView.ItemTemplate>
-                    <DataTemplate >
+                    <DataTemplate x:DataType="Models:Medicine">
                         <ViewCell>
                             <Grid Padding="10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Column="1"
-                           Text=""
-                           FontAttributes="Bold" />
 
+                                <Label Grid.Row="0" Grid.Column="0" Text="Name:" FontAttributes="Bold" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding MedicineName}" />
+
+                                <Label Grid.Row="1" Grid.Column="0" Text="Brand:" FontAttributes="Bold" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding BrandName}" />
+
+                                <Label Grid.Row="2" Grid.Column="0" Text="Pharmacy:" FontAttributes="Bold" />
+                                <Label Grid.Row="2" Grid.Column="1" Text="{Binding Pharmacy.Name}" />
+
+                                <Label Grid.Row="3" Grid.Column="0" Text="Status:" FontAttributes="Bold" />
+                                <Label Grid.Row="3" Grid.Column="1" Text="{Binding Status.Mstatus}" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

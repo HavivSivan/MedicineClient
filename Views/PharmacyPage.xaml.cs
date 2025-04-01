@@ -1,12 +1,13 @@
 using MedicineClient.ViewModels;
 using MedicineClient.Views;
+using MedicineClient.Services;
 namespace MedicineClient.Views;
 
 public partial class PharmacyPage
 {
-	public PharmacyPage(PharmacyPageViewModel vm)
+	public PharmacyPage()
 	{
 		InitializeComponent();
-		this.BindingContext=vm;
-	}
+        BindingContext = new PharmacyPageViewModel(new MedicineWebApi());
+    }
 }

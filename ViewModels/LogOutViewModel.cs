@@ -39,8 +39,9 @@ namespace MedicineClient.ViewModels
 
         private async Task Logout()
         {
-            ((App)Application.Current).LoggedInUser  = new AppUser();
-            ((App)Application.Current).MainPage.Navigation.PushAsync(service.GetService<LoginPage>());
+            var loginPage = service.GetRequiredService<LoginPage>();
+
+            Application.Current.MainPage = new NavigationPage(loginPage);
         }
 
         private void ExitApp()

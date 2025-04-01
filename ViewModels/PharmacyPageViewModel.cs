@@ -9,7 +9,9 @@ namespace MedicineClient.ViewModels
     {
         private MedicineWebApi proxy;
         public ObservableCollection<Medicine> Medicines { get; set; } = new();
-
+        private string response;
+        public string Response
+        { get=>response; set { response=value; OnPropertyChanged(); } }
         public Command ApproveCommand { get; }
         public Command DenyCommand { get; }
 
@@ -22,10 +24,12 @@ namespace MedicineClient.ViewModels
 
         public PharmacyPageViewModel(MedicineWebApi proxy)
         {
+            Response ="";
             this.proxy = proxy;
             ApproveCommand = new Command<Medicine>(async (medicine) => await UpdateMedicineStatus(medicine, "Approved"));
             DenyCommand = new Command<Medicine>(async (medicine) => await UpdateMedicineStatus(medicine, "Denied"));
             LoadMedicines();
+
         }
 
         private async Task LoadMedicines()
@@ -35,6 +39,19 @@ namespace MedicineClient.ViewModels
             foreach (var medicine in medicines)
             {
                 Medicines.Add(medicine);
+                if (Medicines.Count == 0)
+                {
+                    Response="You have no medicine";
+                    OnPropertyChanged(nameof(Response));
+                }
+                Medicines.Add(new Medicine
+                {
+                    MedicineName = "TestMed",
+                    BrandName = "TestBrand",
+                    Status = new MedicineStatus { Mstatus = "Pending", Notes = "" },
+                    Pharmacy = new Pharmacy { Name = "TestPharmacy", Adress = "Test St", Phone = "000", User = new AppUser() },
+                    user = new AppUser()
+                });
             }
         }
 
