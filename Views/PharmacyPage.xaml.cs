@@ -5,9 +5,9 @@ namespace MedicineClient.Views;
 
 public partial class PharmacyPage
 {
-	public PharmacyPage()
+	public PharmacyPage(PharmacyPageViewModel vm)
 	{
 		InitializeComponent();
-        BindingContext = new PharmacyPageViewModel(new MedicineWebApi());
+		BindingContext = vm;
     }
 }

@@ -1,9 +1,9 @@
 using MedicineClient.ViewModels;
 namespace MedicineClient.Views;
 
-public partial class StatusPage : ContentPage
+public partial class ProfilePage : ContentPage
 {
-	public StatusPage(StatusPageViewModel vm)
+	public ProfilePage(ProfilePageViewModel vm)
 	{
 		InitializeComponent();
 		this.BindingContext = vm;

@@ -17,11 +17,13 @@ namespace MedicineClient.Models
 
         public MedicineStatus Status { get; set; }
 
+        public bool NeedsPrescription { get; set; }
+
         public AppUser user { get; set; }
         public Medicine()
         { }
 
-        public Medicine(int medicineid, Pharmacy pharamacy, string medicinename, string brandname, MedicineStatus status, AppUser user)
+        public Medicine(int medicineid, Pharmacy pharamacy, string medicinename, string brandname, MedicineStatus status, AppUser user, bool needsPrescription)
         {
             this.MedicineId=medicineid;
             this.MedicineName=medicinename;
@@ -29,6 +31,7 @@ namespace MedicineClient.Models
             this.Status=status;
             this.user=user;
             this.Pharmacy=pharamacy;
+            this.NeedsPrescription=needsPrescription;
         }
     }
 }

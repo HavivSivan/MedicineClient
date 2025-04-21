@@ -241,7 +241,6 @@ namespace MedicineClient.ViewModels
 
         private void ValidatePassword()
         {
-            //Password must include characters and numbers and be longer than 4 characters
             if (string.IsNullOrEmpty(password) ||
                 password.Length < 4 ||
                 !password.Any(char.IsDigit) ||
@@ -252,8 +251,6 @@ namespace MedicineClient.ViewModels
             else
                 this.ShowPasswordError = false;
         }
-
-        //This property will indicate if the password entry is a password
         private bool isPassword = true;
         public bool IsPassword
         {
@@ -264,12 +261,9 @@ namespace MedicineClient.ViewModels
                 OnPropertyChanged("IsPassword");
             }
         }
-        //This command will trigger on pressing the password eye icon
         public Command ShowPasswordCommand { get; }
-        //This method will be called when the password eye icon is pressed
         public void OnShowPassword()
         {
-            //Toggle the password visibility
             IsPassword = !IsPassword;
         }
         #endregion

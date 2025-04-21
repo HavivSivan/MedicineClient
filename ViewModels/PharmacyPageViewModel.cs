@@ -14,6 +14,11 @@ namespace MedicineClient.ViewModels
         { get=>response; set { response=value; OnPropertyChanged(); } }
         public Command ApproveCommand { get; }
         public Command DenyCommand { get; }
+        private bool needsPrescription;
+        public bool NeedsPrescription
+        {
+            get => needsPrescription; set { needsPrescription = value; OnPropertyChanged(); }
+        }
 
         private string statusMessage;
         public string StatusMessage
@@ -38,30 +43,28 @@ namespace MedicineClient.ViewModels
             Medicines.Clear();
             foreach (var medicine in medicines)
             {
+                if(medicine.Status.Mstatus=="Approved")
                 Medicines.Add(medicine);
                 if (Medicines.Count == 0)
                 {
                     Response="You have no medicine";
                     OnPropertyChanged(nameof(Response));
                 }
-                Medicines.Add(new Medicine
-                {
-                    MedicineName = "TestMed",
-                    BrandName = "TestBrand",
-                    Status = new MedicineStatus { Mstatus = "Pending", Notes = "" },
-                    Pharmacy = new Pharmacy { Name = "TestPharmacy", Adress = "Test St", Phone = "000", User = new AppUser() },
-                    user = new AppUser()
-                });
             }
         }
 
         private async Task UpdateMedicineStatus(Medicine medicine, string status)
         {
+            if (medicine.Status == null)
+                medicine.Status = new MedicineStatus();
+
             medicine.Status.Mstatus = status;
+
             var success = await proxy.UpdateMedicineAsync(medicine);
             StatusMessage = success ? $"{medicine.MedicineName} updated successfully." : "Failed to update medicine.";
             if (success) await LoadMedicines();
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName) =>

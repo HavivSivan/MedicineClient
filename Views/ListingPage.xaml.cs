@@ -4,10 +4,9 @@ namespace MedicineClient.Views;
 
 public partial class ListingPage : ContentPage
 {
-    public ListingPage()
+    public ListingPage(ListingPageViewModel vm)
     {
         InitializeComponent();
-        var proxy = App.Services.GetService<MedicineWebApi>();
-        BindingContext = new ListingPageViewModel(proxy);
+        this.BindingContext = vm;
     }
 }

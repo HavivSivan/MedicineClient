@@ -4,15 +4,19 @@
              x:Class="MedicineClient.Views.ListingPage"
              xmlns:Models="clr-namespace:MedicineClient.Models"
              xmlns:ViewModels="clr-namespace:MedicineClient.ViewModels"
-             x:DataType="ViewModels:ListingPageViewModel"
-             
-             >
+             x:DataType="ViewModels:ListingPageViewModel">
+
     <StackLayout>
-        <RefreshView >
+        <SearchBar Placeholder="Search by name..."
+               Text="{Binding SearchText}"
+               Margin="10"/>
+
+        <RefreshView Command="{Binding OnRefresh}" IsRefreshing="{Binding IsRefreshing}">
             <ListView ItemsSource="{Binding Listing}" HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="Models:Medicine">
                         <ViewCell>
+                            
                             <Grid Padding="10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
@@ -43,5 +47,4 @@
             </ListView>
         </RefreshView>
     </StackLayout>
-
 </ContentPage>

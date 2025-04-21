@@ -4,9 +4,9 @@ namespace MedicineClient.Views;
 
 public partial class LoginPage : ContentPage
 {
-	public LoginPage(LoginPageViewModel context)
+	public LoginPage(LoginPageViewModel vm)
 	{
-		this.BindingContext =context;
+		this.BindingContext =vm;
 		InitializeComponent();
 	}
 }

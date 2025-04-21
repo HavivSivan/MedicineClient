@@ -30,6 +30,10 @@ namespace MedicineClient
             builder.Services.AddTransient<PharmacyPageViewModel>();
             builder.Services.AddSingleton<MedicineWebApi>();
             builder.Services.AddTransient<ListingPageViewModel>();
+            builder.Services.AddSingleton<ProfilePage>();
+            builder.Services.AddTransient<ProfilePageViewModel>();
+            builder.Services.AddTransient<StatusPage>();
+            builder.Services.AddTransient<StatusPageViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

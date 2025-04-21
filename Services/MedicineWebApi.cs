@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Net.Http.Json;
 using static System.Net.WebRequestMethods;
 using System.Net.Http;
+using System.Text.Json.Serialization;
 
 
 
@@ -30,9 +31,9 @@ namespace MedicineClient.Services
         private HttpClient client;
 
         private JsonSerializerOptions jsonSerializerOptions;
-        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://jnx64rw2-5155.euw.devtunnels.ms/api/" : "http://localhost:5155/api/";
+        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://zh7xvw6t-5155.euw.devtunnels.ms/api/" : "http://localhost:5155/api/";
 
-        private string baseUrl = "https://jnx64rw2-5155.euw.devtunnels.ms/api/";
+        private string baseUrl = "https://zh7xvw6t-5155.euw.devtunnels.ms/api/";
         public AppUser LoggedInUser { get; set; }
         public async Task<AppUser?> LoginAsync(LoginInfo userInfo)
         {
@@ -50,7 +51,6 @@ namespace MedicineClient.Services
                         PropertyNameCaseInsensitive=true
                     };
                     AppUser? result = JsonSerializer.Deserialize<AppUser>(resContent, options);
-                    Console.WriteLine("Rank: "+result.Rank);
                     return result;
                 }
                 else
@@ -147,7 +147,10 @@ namespace MedicineClient.Services
             try
             {
                 Console.WriteLine($"Updating medicine ID {medicine.MedicineId} to status {medicine.Status.Mstatus}...");
-                var response = await client.PutAsJsonAsync($"{baseUrl}medicines/{medicine.MedicineId}", medicine);
+                var response = await client.PutAsJsonAsync($"api/medicine/{medicine.MedicineId}", medicine);
+
+                Console.WriteLine($"Status Code: {response.StatusCode}");
+                Console.WriteLine($"Response Body: {await response.Content.ReadAsStringAsync()}");
                 if (response.IsSuccessStatusCode)
                 {
                     Console.WriteLine("Medicine updated successfully.");
@@ -187,6 +190,59 @@ namespace MedicineClient.Services
                 return null;
             }
         }
+             public async Task<List<Order>> GetUserOrdersAsync()
+        {
+            try
+            {
+                var response = await client.GetAsync($"{baseUrl}/Order");
+                if (response.IsSuccessStatusCode)
+                {
+                    var orders = await response.Content.ReadFromJsonAsync<List<Order>>();
+                    return orders ?? new List<Order>();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return new List<Order>();
+        }
+        public async Task<List<Medicine>> GetUserMedicinesAsync()
+        {
+            try
+            {
+                var response = await client.GetAsync($"{baseUrl}/Medicine");
+                if (response.IsSuccessStatusCode)
+                {
+                    var medicines = await response.Content.ReadFromJsonAsync<List<Medicine>>();
+                    return medicines ?? new List<Medicine>();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return new List<Medicine>();
+        }
+        public async Task<bool> IsUsernameTakenAsync(string username)
+        {
+            HttpResponseMessage response = await client.GetAsync($"{baseUrl}/is-username-taken/{username}");
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                return bool.Parse(content);
+            }
+            return true; 
+        }
+        public async Task<bool> UpdateUserAsync(AppUser user)
+        {
+            var json = JsonSerializer.Serialize(user);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PutAsync($"{baseUrl}/update-user", content);
+            return response.IsSuccessStatusCode;
+        }
+
     }
 }
 

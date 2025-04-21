@@ -20,6 +20,10 @@
                             <Label x:DataType="Models:MedicineStatus" Text="{Binding Mstatus}" />
 
                             <Entry Placeholder="Leave a note..." x:DataType="Models:MedicineStatus" Text="{Binding Notes}"  />
+                            <CheckBox
+                                IsChecked="{Binding NeedsPrescription}" />
+                            <Label Text="Needs Prescription" VerticalOptions="Center" />
+
 
                             <HorizontalStackLayout Spacing="10">
                                 <Button Text="Approve" 
