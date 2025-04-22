@@ -226,7 +226,7 @@ namespace MedicineClient.Services
         }
         public async Task<bool> IsUsernameTakenAsync(string username)
         {
-            HttpResponseMessage response = await client.GetAsync($"{baseUrl}/is-username-taken/{username}");
+            HttpResponseMessage response = await client.GetAsync($"{baseUrl}/isusernametaken/{username}");
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
@@ -239,7 +239,7 @@ namespace MedicineClient.Services
             var json = JsonSerializer.Serialize(user);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync($"{baseUrl}/update-user", content);
+            var response = await client.PutAsync($"{baseUrl}/updateuser", content);
             return response.IsSuccessStatusCode;
         }
 
