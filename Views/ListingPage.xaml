@@ -4,13 +4,15 @@
              x:Class="MedicineClient.Views.ListingPage"
              xmlns:Models="clr-namespace:MedicineClient.Models"
              xmlns:ViewModels="clr-namespace:MedicineClient.ViewModels"
-             x:DataType="ViewModels:ListingPageViewModel">
+             x:DataType="ViewModels:ListingPageViewModel"
+             >
 
     <StackLayout>
+        
         <SearchBar Placeholder="Search by name..."
                Text="{Binding SearchText}"
                Margin="10"/>
-
+        <ImageButton Source="barcode.jpg"/>
         <RefreshView Command="{Binding OnRefresh}" IsRefreshing="{Binding IsRefreshing}">
             <ListView ItemsSource="{Binding Listing}" HasUnevenRows="True">
                 <ListView.ItemTemplate>

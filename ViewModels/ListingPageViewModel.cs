@@ -9,24 +9,33 @@ using MedicineClient.Models;
 using System.Windows.Input;
 using MedicineClient.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using MedicineClient.Views;
 namespace MedicineClient.ViewModels;
 public class ListingPageViewModel : ViewModelBase
 {
     private readonly MedicineWebApi proxy;
+    private readonly DrugWebAPI DrugProxy;
 
-    public ListingPageViewModel(MedicineWebApi proxy)
+    Command OnBarcode { get; }
+    public ListingPageViewModel(MedicineWebApi proxy, ServiceProvider serviceProvider)
     {
         this.proxy = proxy;
         Listing = new ObservableCollection<Medicine>();
         OnRefresh = new Command(async () => await Refresh());
+        OnBarcode = new Command(async () => await ((App)Application.Current).MainPage.Navigation.PushAsync(serviceProvider.GetService<BarcodePage>()));
         IsRefreshing = false;
         SearchText = string.Empty;
 
         Task.Run(async () => await LoadMedicines());
     }
 
-    private List<Medicine> allMedicines = new(); 
-
+    private List<Medicine> allMedicines = new();
+    private string detectedCode;
+    public string DetectedCode
+    {
+        get => detectedCode;
+        set { detectedCode = value; OnPropertyChanged(); }
+    }
     private ObservableCollection<Medicine> listing;
     public ObservableCollection<Medicine> Listing
     {

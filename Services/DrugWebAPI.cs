@@ -20,7 +20,7 @@ namespace MedicineClient.Services
         public static string BaseAddress = "https://israeldrugs.health.gov.il";
         #endregion
 
-        public DrugWebAPI() 
+        public DrugWebAPI()
         {
             //Set client handler to support cookies!!
             HttpClientHandler handler = new HttpClientHandler();
@@ -28,11 +28,11 @@ namespace MedicineClient.Services
             this.client = new HttpClient(handler);
             this.baseUrl = BaseAddress;
         }
-        
-        public async Task<ExpandoObject> SearchByName(ExpandoObject input)
+
+        public async Task<ExpandoObject> SearchById(string input)
         {
             //Set URI to the specific function API
-            string url = $"{this.baseUrl}/GovServiceList/IDRServer/SearchByName";
+            string url = $"{this.baseUrl}/GovServiceList/IDRServer/SearchByAdv";
             try
             {
                 //Call the server API
@@ -49,7 +49,7 @@ namespace MedicineClient.Services
                     {
                         PropertyNameCaseInsensitive = true
                     };
-                    ExpandoObject? result = JsonSerializer.Deserialize<ExpandoObject>(resContent, options);
+                    ExpandoObject result = JsonSerializer.Deserialize<ExpandoObject>(resContent, options);
                     return result;
                 }
                 else

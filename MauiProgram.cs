@@ -34,6 +34,8 @@ namespace MedicineClient
             builder.Services.AddTransient<ProfilePageViewModel>();
             builder.Services.AddTransient<StatusPage>();
             builder.Services.AddTransient<StatusPageViewModel>();
+            builder.Services.AddTransient<BarcodePage>();
+            builder.Services.AddTransient<BarcodePageViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();
