@@ -68,7 +68,7 @@ namespace MedicineClient.ViewModels
             bool success = await WebService.EnableUserAsync(SelectedUser.Id);
             StatusMessage = success ? "User disabled/enabled successfully." : "Fail";
             selectedUser.Active=!selectedUser.Active;
-            OnPropertyChanged(nameof(SelectedUser.Active));
+            
         }
 
 

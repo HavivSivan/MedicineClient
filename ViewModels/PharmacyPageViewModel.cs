@@ -26,13 +26,18 @@ namespace MedicineClient.ViewModels
             get => statusMessage;
             set { statusMessage = value; OnPropertyChanged(); }
         }
-
+        private string notes;
+        public string Notes
+        {
+            get => notes;
+            set { notes = value; OnPropertyChanged(); }
+        }
         public PharmacyPageViewModel(MedicineWebApi proxy)
         {
             Response ="";
             this.proxy = proxy;
-            ApproveCommand = new Command<Medicine>(async (medicine) => await UpdateMedicineStatus(medicine, "Approved"));
-            DenyCommand = new Command<Medicine>(async (medicine) => await UpdateMedicineStatus(medicine, "Denied"));
+            ApproveCommand = new Command<Medicine>(async (medicine) => await UpdateMedicineStatus(medicine, "Approved", Notes));
+            DenyCommand = new Command<Medicine>(async (medicine) => await UpdateMedicineStatus(medicine, "Denied", Notes));
             LoadMedicines();
 
         }
@@ -53,11 +58,11 @@ namespace MedicineClient.ViewModels
             }
         }
 
-        private async Task UpdateMedicineStatus(Medicine medicine, string status)
+        private async Task UpdateMedicineStatus(Medicine medicine, string status, string ?notes)
         {
             if (medicine.Status == null)
                 medicine.Status = new MedicineStatus();
-
+            medicine.Status.Notes = notes;
             medicine.Status.Mstatus = status;
 
             var success = await proxy.UpdateMedicineAsync(medicine);
