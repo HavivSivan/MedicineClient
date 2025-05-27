@@ -11,4 +11,18 @@ namespace MedicineClient.Models
         public string password { get; set; }
         public string username { get; set; }
     }
+    public class PharmacyCreateDTO
+    {
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string Phone { get; set; }
+        public int UserId { get; set; }
+    }
+    public class MedicineCreateDTO
+    {
+        public string MedicineName { get; set; }
+        public string BrandName { get; set; }
+        public int PharmacyId { get; set; }
+        public int UserId { get; set; }
+    }
 }

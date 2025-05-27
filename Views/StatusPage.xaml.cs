@@ -8,4 +8,9 @@ public partial class StatusPage : ContentPage
 		InitializeComponent();
 		this.BindingContext = vm;
 	}
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        (BindingContext as StatusPageViewModel)?.LoadData();
+    }
 }

@@ -3,11 +3,11 @@ using MedicineClient.Views;
 using MedicineClient.Services;
 namespace MedicineClient.Views;
 
-public partial class PharmacyPage
+public partial class PharmacyPage : ContentPage
 {
 	public PharmacyPage(PharmacyPageViewModel vm)
 	{
 		InitializeComponent();
-		BindingContext = vm;
+		this.BindingContext = vm;
     }
 }

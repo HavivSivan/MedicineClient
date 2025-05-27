@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MedicineClient.Views.AddPharmacy" 
+                xmlns:viewModels="clr-namespace:MedicineClient.ViewModels"
+             x:DataType="viewModels:AddPharmacyViewModel"
+             Title="AddPharmacy" >
+    <VerticalStackLayout>
+        <Label Text="Add Pharmacy"
+               FontSize="24"
+               HorizontalOptions="Center"
+               Margin="10"/>
+        <Entry Placeholder="Pharmacy Name"
+               Text="{Binding PharmacyName}"
+               Margin="10"/>
+        <Entry Placeholder="Address"
+               Text="{Binding Address}"
+               Margin="10"/>
+        <Entry Placeholder="Phone"
+               Text="{Binding Phone}"
+               Margin="10"/>
+        <Entry Placeholder="User Id"
+       Text="{Binding Id}"
+       Margin="10"/>
+        <Button Text="Add Pharmacy"
+                Command="{Binding AddPharmacyCommand}"
+                Margin="10"/>
+        <Label Text="{Binding StatusMessage}"
+               TextColor="Green"
+               HorizontalOptions="Center"
+               Margin="10"/>
+    </VerticalStackLayout>
+</ContentPage>

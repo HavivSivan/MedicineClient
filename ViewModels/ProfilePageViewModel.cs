@@ -17,9 +17,9 @@ namespace MedicineClient.ViewModels
         public string NewUsername
         { get { return newUsername; } set { newUsername = value; OnPropertyChanged(); } }
 
-        private string newPassword;
-        public string NewPassword
-        { get { return newPassword; } set { newPassword=value; OnPropertyChanged(); } }
+        private string password;
+        public string Password
+        { get { return password; } set { password=value; OnPropertyChanged(); } }
 
         private string errorMessage;
         public string ErrorMessage
@@ -56,13 +56,6 @@ namespace MedicineClient.ViewModels
                 SetError("Username cannot be empty.");
                 return;
             }
-
-            if (!ValidatePassword(NewPassword))
-            {
-                SetError("Password must be longer than 4 characters and contain at least one letter and one number.");
-                return;
-            }
-
             bool isTaken = await proxy.IsUsernameTakenAsync(NewUsername);
             if (isTaken && NewUsername != currentUser.UserName)
             {
@@ -71,7 +64,7 @@ namespace MedicineClient.ViewModels
             }
 
             currentUser.UserName = NewUsername;
-            currentUser.UserPassword = NewPassword;
+            currentUser.UserPassword = Password;
 
             bool success = await proxy.UpdateUserAsync(currentUser);
             if (!success)
@@ -82,15 +75,6 @@ namespace MedicineClient.ViewModels
 
             await Shell.Current.DisplayAlert("Success", "Profile updated successfully!", "OK");
         }
-
-        private bool ValidatePassword(string password)
-        {
-            if (string.IsNullOrWhiteSpace(password) || password.Length <= 4)
-                return false;
-
-            return true;
-        }
-
         private void SetError(string message)
         {
             ErrorMessage = message;

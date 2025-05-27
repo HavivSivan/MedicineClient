@@ -34,6 +34,10 @@
                 TextColor="White"
                 IsVisible="{Binding Finishedsearch}"
                 IsEnabled="{Binding Finishedsearch}" />
+        <Button Text="Add Pharmacy"
+                Command="{Binding AddPharmacyCommand}"
+                BackgroundColor="Green"
+                TextColor="White"/>
 
         <Label Text="{Binding StatusMessage}" 
                TextColor="Red"

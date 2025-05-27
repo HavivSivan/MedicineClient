@@ -10,6 +10,16 @@ using System.Threading.Tasks;
 
 namespace MedicineClient.Services
 {
+    public class DrugWebAPIRequest
+    {
+        public string barcode { get; set; }
+        public bool prescription { get; set; }
+        public DrugWebAPIRequest(string barcode, bool prescription)
+        {
+            this.barcode = barcode;
+            this.prescription = prescription;
+        }
+    }
     public class DrugWebAPI
     {
         #region with tunnel
@@ -28,40 +38,49 @@ namespace MedicineClient.Services
             this.client = new HttpClient(handler);
             this.baseUrl = BaseAddress;
         }
-        
-        public async Task<ExpandoObject> SearchByName(ExpandoObject input)
+
+        public async Task<string> SearchByBarcode(string code)
         {
-            //Set URI to the specific function API
-            string url = $"{this.baseUrl}/GovServiceList/IDRServer/SearchByName";
+            DrugWebAPIRequest input = new DrugWebAPIRequest(code, false);
+            string url = $"{this.baseUrl}/GovServiceList/IDRServer/SearchByBarcode";
             try
             {
-                //Call the server API
                 string json = JsonSerializer.Serialize(input);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(url, content);
-                //Check status
+
                 if (response.IsSuccessStatusCode)
                 {
-                    //Extract the content as string
                     string resContent = await response.Content.ReadAsStringAsync();
-                    //Desrialize result
-                    JsonSerializerOptions options = new JsonSerializerOptions
+
+                    using (JsonDocument doc = JsonDocument.Parse(resContent))
                     {
-                        PropertyNameCaseInsensitive = true
-                    };
-                    ExpandoObject? result = JsonSerializer.Deserialize<ExpandoObject>(resContent, options);
-                    return result;
+                        JsonElement root = doc.RootElement;
+
+                        if (root.TryGetProperty("results", out JsonElement resultsArray) &&
+                            resultsArray.ValueKind == JsonValueKind.Array &&
+                            resultsArray.GetArrayLength() > 0)
+                        {
+                            JsonElement firstResult = resultsArray[0];
+                            if (firstResult.TryGetProperty("dragEnName", out JsonElement nameElement))
+                            {
+                                return nameElement.GetString();
+                            }
+                        }
+
+                        Console.WriteLine( "dragEnName not found in results.");
+                    }
                 }
                 else
                 {
-                    return null;
+                    Console.WriteLine( $"Request failed: {response.StatusCode}");
                 }
             }
             catch (Exception ex)
             {
-                return null;
+                Console.WriteLine( $"Exception: {ex.Message}");
             }
-
+            return "";
         }
 
     }

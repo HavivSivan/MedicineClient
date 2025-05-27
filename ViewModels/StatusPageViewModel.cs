@@ -3,8 +3,10 @@ using MedicineClient.Models;
 using MedicineClient.Services;
 using MedicineClient.ViewModels;
 using MedicineClient;
-public class StatusPageViewModel : ViewModelBase
-{
+namespace MedicineClient.ViewModels
+{ 
+    public class StatusPageViewModel : ViewModelBase
+    {
     private MedicineWebApi proxy;
 
     public ObservableCollection<Medicine> MyMedicines { get; set; } = new();
@@ -31,35 +33,43 @@ public class StatusPageViewModel : ViewModelBase
     public StatusPageViewModel()
     {
         proxy = new MedicineWebApi();
-        LoadData();
     }
 
-    private async void LoadData()
-    {
-        var currentUser = ((App)Application.Current).LoggedInUser;
+        public async void LoadData()
+        {
+            try
+            {
+                var allMedicines = await proxy.GetUserMedicinesAsync();
+                Console.WriteLine($"fetched {allMedicines.Count} medicines");
+                var allOrders = await proxy.GetUserOrdersAsync();
+                Console.WriteLine($"fetched {allOrders.Count} orders");
 
-        var allMedicines = await proxy.GetUserMedicinesAsync();
-        var allOrders = await proxy.GetUserOrdersAsync();
+                var currentUser = ((App)Application.Current).LoggedInUser;
+                MyMedicines.Clear();
+                foreach (var m in allMedicines.Where(m => m.user.Id == currentUser.Id))
+                    MyMedicines.Add(m);
 
-        MyMedicines.Clear();
-        MyOrders.Clear();
+                MyOrders.Clear();
+                foreach (var o in allOrders.Where(o => o.User.Id == currentUser.Id))
+                    MyOrders.Add(o);
 
-        foreach (var med in allMedicines.Where(m => m.user.Id == currentUser.Id))
-            MyMedicines.Add(med);
+                FilterData();
+                Console.WriteLine($"filtered to {FilteredMedicines.Count} meds and {FilteredOrders.Count} orders");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in LoadData: {ex}");
+            }
+        }
 
-        foreach (var ord in allOrders.Where(o => o.User.Id == currentUser.Id))
-            MyOrders.Add(ord);
 
-        FilterData();
-    }
-
-    public void FilterData()
+        public void FilterData()
     {
         string keyword = (SearchText ?? "").ToLower();
 
         var filteredMeds = MyMedicines.Where(m => m.MedicineName.ToLower().Contains(keyword) ||m.BrandName.ToLower().Contains(keyword)).ToList();
 
-        var filteredOrds = MyOrders.Where(o => o.Medicine.MedicineName.ToLower().Contains(keyword) ||o.Sender.ToLower().Contains(keyword) ||o.Receiver.ToLower().Contains(keyword)).ToList();
+        var filteredOrds = MyOrders.Where(o => o.Medicine.MedicineName.ToLower().Contains(keyword));
 
         FilteredMedicines.Clear();
         foreach (var m in filteredMeds)
@@ -68,5 +78,6 @@ public class StatusPageViewModel : ViewModelBase
         FilteredOrders.Clear();
         foreach (var o in filteredOrds)
             FilteredOrders.Add(o);
+    }
     }
 }

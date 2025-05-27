@@ -10,9 +10,10 @@
         <SearchBar Placeholder="Search by name..."
                Text="{Binding SearchText}"
                Margin="10"/>
-
-        <RefreshView Command="{Binding OnRefresh}" IsRefreshing="{Binding IsRefreshing}">
-            <ListView ItemsSource="{Binding Listing}" HasUnevenRows="True">
+        <Button Command="{Binding OnBarcodeCommand}" Text="Search with Barcode"/>
+        <Button Command="{Binding SelectMedicineCommand}" Text="Order"/>
+        <RefreshView Command="{Binding OnRefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+            <ListView ItemsSource="{Binding Listing}" HasUnevenRows="True" SelectedItem="{Binding SelectedMedicine}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="Models:Medicine">
                         <ViewCell>

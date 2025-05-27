@@ -7,41 +7,73 @@
              xmlns:Models="clr-namespace:MedicineClient.Models"
              x:DataType="ViewModels:PharmacyPageViewModel"
              >
-    <VerticalStackLayout Padding="20" Spacing="10">
+    <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="10">
         <Label Text="Manage Medicines" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center" />
+        <Button Text="Add Medicine" 
+                Command="{Binding AddMedicineCommand}" 
+                BackgroundColor="Blue" 
+                TextColor="White" 
+                HorizontalOptions="Center" />
         <Label Text="{Binding Response}"/>
         <CollectionView ItemsSource="{Binding Medicines}">
             <CollectionView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="Models:Medicine">
                     <Frame Padding="10" CornerRadius="10" BackgroundColor="#FFFFFF" Margin="5">
-                        <VerticalStackLayout x:DataType="Models:Medicine">
+                        <VerticalStackLayout>
                             <Label Text="{Binding MedicineName}" FontSize="Medium" FontAttributes="Bold" />
                             <Label Text="{Binding BrandName}" />
-                            <Label x:DataType="Models:MedicineStatus" Text="{Binding Mstatus}" />
-
-                            <Entry Placeholder="Leave a note..." x:DataType="Models:MedicineStatus" Text="{Binding Notes}"  />
-                            <CheckBox
-                                IsChecked="{Binding NeedsPrescription}" />
+                            <Label Text="{Binding Status.Mstatus}" />
+                            <Entry Placeholder="Leave a note..." Text="{Binding Status.Notes}" />
+                            <CheckBox IsChecked="{Binding NeedsPrescription}" />
                             <Label Text="Needs Prescription" VerticalOptions="Center" />
-
 
                             <HorizontalStackLayout Spacing="10">
                                 <Button Text="Approve" 
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ApproveCommand}" 
-                                        CommandParameter="{Binding .}" 
-                                        BackgroundColor="Green" TextColor="White" />
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ApproveCommand}" 
+                        CommandParameter="{Binding .}" 
+                        BackgroundColor="Green" TextColor="White" />
                                 <Button Text="Deny" 
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DenyCommand}" 
-                                        CommandParameter="{Binding .}" 
-                                        BackgroundColor="Red" TextColor="White" />
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DenyCommand}" 
+                        CommandParameter="{Binding .}" 
+                        BackgroundColor="Red" TextColor="White" />
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <CollectionView ItemsSource="{Binding Orders}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Models:Order">
+                    <Frame Padding="10" Margin="5">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Medicine.MedicineName}" />
+                            <Label Text="{Binding User.UserName}" />
+                            <Label Text="{Binding OStatus}" />
+
+                            <HorizontalStackLayout>
+                                <Button Text="Approve"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ApproveOrderCommand}"
+                                CommandParameter="{Binding .}"
+                                BackgroundColor="Green"
+                                TextColor="White" />
+                                <Button Text="Deny"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DenyOrderCommand}"
+                                CommandParameter="{Binding .}"
+                                BackgroundColor="Red"
+                                TextColor="White" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
         <Label Text="{Binding StatusMessage}" TextColor="Red" FontAttributes="Italic" HorizontalOptions="Center" />
-
         </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
 
-    </ContentPage>
+</ContentPage>

@@ -1,36 +1,64 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:MedicineClient.ViewModels"
-             x:Class="MedicineClient.Views.StatusPage">
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:MedicineClient.ViewModels"
+    xmlns:models="clr-namespace:MedicineClient.Models"
+    x:Class="MedicineClient.Views.StatusPage"
+    x:DataType="viewModels:StatusPageViewModel">
+
+    <ContentPage.BindingContext>
+        <viewModels:StatusPageViewModel />
+    </ContentPage.BindingContext>
+
     <ScrollView>
         <StackLayout Padding="10" Spacing="20">
 
-            <Label Text="My Submitted Medicines" FontSize="20" FontAttributes="Bold" />
+            <!-- search box -->
+            <Entry
+        Placeholder="Search medicines or orders..."
+        Text="{Binding SearchText}"
+        ClearButtonVisibility="WhileEditing" />
 
-            <CollectionView ItemsSource="{Binding MyMedicines}">
+            <!-- Medicines list -->
+            <Label
+        Text="My Submitted Medicines"
+        FontSize="20"
+        FontAttributes="Bold" />
+
+            <CollectionView ItemsSource="{Binding FilteredMedicines}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="models:Medicine">
                         <Frame BorderColor="Gray" Padding="10" Margin="5">
                             <StackLayout>
                                 <Label Text="{Binding MedicineName}" FontAttributes="Bold" />
                                 <Label Text="{Binding BrandName}" />
-                                <Label Text="Status: {Binding Status.Mstatus}" />
+                                <Label
+                  Text="{Binding Status.Mstatus, StringFormat='Status: {0}'}" />
                             </StackLayout>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <Label Text="My Orders" FontSize="20" FontAttributes="Bold" />
+            <!-- Orders list -->
+            <Label
+        Text="My Orders"
+        FontSize="20"
+        FontAttributes="Bold" />
 
-            <CollectionView ItemsSource="{Binding MyOrders}">
+            <CollectionView ItemsSource="{Binding FilteredOrders}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="models:Order">
                         <Frame BorderColor="Gray" Padding="10" Margin="5">
                             <StackLayout>
-                                <Label Text="Medicine: {Binding Medicine.MedicineName}" FontAttributes="Bold"/>
-                                <Label Text="Sender: {Binding Sender}" />
-                                <Label Text="Receiver: {Binding Receiver}" />
+                                <Label
+                  Text="{Binding Medicine.MedicineName, StringFormat='Medicine: {0}'}"
+                  FontAttributes="Bold" />
+                                <Label
+                  Text="{Binding OStatus, StringFormat='Order status: {0}'}" />
+                                <Label
+                  Text="{Binding User.UserName, StringFormat='Ordered by: {0}'}" />
                             </StackLayout>
                         </Frame>
                     </DataTemplate>

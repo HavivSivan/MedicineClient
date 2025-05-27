@@ -2,72 +2,132 @@
 using MedicineClient.Models;
 using MedicineClient.ViewModels;
 using System.Collections.ObjectModel;
+using MedicineClient.Views;
 using System.ComponentModel;
+using System.Windows.Input;
 namespace MedicineClient.ViewModels
 {
     public class PharmacyPageViewModel : ViewModelBase
     {
         private MedicineWebApi proxy;
-        public ObservableCollection<Medicine> Medicines { get; set; } = new();
-        private string response;
+
+        public ObservableCollection<Medicine> Medicines { get; } = new();
+        public ObservableCollection<Order> Orders { get; } = new();
+
+        private string _response;
         public string Response
-        { get=>response; set { response=value; OnPropertyChanged(); } }
-        public Command ApproveCommand { get; }
-        public Command DenyCommand { get; }
-        private bool needsPrescription;
-        public bool NeedsPrescription
         {
-            get => needsPrescription; set { needsPrescription = value; OnPropertyChanged(); }
+            get => _response;
+            set { _response = value; OnPropertyChanged(); }
         }
 
-        private string statusMessage;
+        string _statusMessage;
         public string StatusMessage
         {
-            get => statusMessage;
-            set { statusMessage = value; OnPropertyChanged(); }
+            get => _statusMessage;
+            set { _statusMessage=value; OnPropertyChanged(); }
+        }
+        private bool isRefreshing;
+        public bool IsRefreshing
+        {
+            get => isRefreshing;
+            set { isRefreshing = value; OnPropertyChanged(); }
         }
 
-        public PharmacyPageViewModel(MedicineWebApi proxy)
+        public Command ApproveCommand { get; }
+        public Command DenyCommand { get; }
+        public Command ApproveOrderCommand { get; }
+        public Command DenyOrderCommand { get; }
+        public Command AddMedicineCommand { get; }
+        public Command RefreshCommand { get; }
+        private IServiceProvider service;
+
+        public PharmacyPageViewModel(MedicineWebApi proxy, IServiceProvider serviceProvider)
         {
-            Response ="";
             this.proxy = proxy;
-            ApproveCommand = new Command<Medicine>(async (medicine) => await UpdateMedicineStatus(medicine, "Approved"));
-            DenyCommand = new Command<Medicine>(async (medicine) => await UpdateMedicineStatus(medicine, "Denied"));
-            LoadMedicines();
-
+            this.service= serviceProvider;
+            ApproveCommand      = new Command<Medicine>(async m => await ChangeMedicineStatusAsync(m, "Approved"));
+            DenyCommand         = new Command<Medicine>(async m => await ChangeMedicineStatusAsync(m, "Denied"));
+            ApproveOrderCommand = new Command<Order>(async o => await ChangeOrderStatusAsync(o, "Approved"));
+            DenyOrderCommand    = new Command<Order>(async o => await ChangeOrderStatusAsync(o, "Denied"));
+            AddMedicineCommand = new Command(OnAddMedicine);
+            RefreshCommand= new Command(async () => await LoadDataAsync());
+            _ = LoadDataAsync();
         }
 
-        private async Task LoadMedicines()
+        public async Task LoadDataAsync()
         {
-            var medicines = await proxy.GetMedicineList();
+            await LoadMedicinesAsync();
+            await LoadOrdersAsync();
+        }
+        public  async void OnAddMedicine()
+        {
+            ((App)Application.Current).MainPage.Navigation.PushAsync(service.GetService<AddMedicine>());
+        }
+        private async Task LoadMedicinesAsync()
+        {
+            var all = await proxy.GetMedicineList();
             Medicines.Clear();
-            foreach (var medicine in medicines)
+
+            if (all == null || all.Count == 0)
             {
-                if(medicine.Status.Mstatus=="Approved")
-                Medicines.Add(medicine);
-                if (Medicines.Count == 0)
-                {
-                    Response="You have no medicine";
-                    OnPropertyChanged(nameof(Response));
-                }
+                Response = "You have no medicines to review.";
+                return;
             }
+
+            // only show those still “Checking”
+            foreach (var m in all.Where(x => x.Status?.Mstatus == "Checking"))
+                Medicines.Add(m);
+
+            Response = Medicines.Any()
+                ? string.Empty
+                : "No medicines in “Checking” state.";
         }
 
-        private async Task UpdateMedicineStatus(Medicine medicine, string status)
+        private async Task LoadOrdersAsync()
         {
-            if (medicine.Status == null)
-                medicine.Status = new MedicineStatus();
+            var all = await proxy.GetOrdersList();
+            Orders.Clear();
 
-            medicine.Status.Mstatus = status;
+            if (all == null || all.Count == 0)
+            {
+                Response = "You have no orders to review.";
+                return;
+            }
 
-            var success = await proxy.UpdateMedicineAsync(medicine);
-            StatusMessage = success ? $"{medicine.MedicineName} updated successfully." : "Failed to update medicine.";
-            if (success) await LoadMedicines();
+            foreach (var o in all.Where(x => x.OStatus == "Pending"))
+                Orders.Add(o);
+
+            Response = Orders.Any()
+                ? string.Empty
+                : "No pending orders.";
         }
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        async Task ChangeMedicineStatusAsync(Medicine m, string newStatus)
+        {
+            m.Status ??= new MedicineStatus();
+            m.Status.Mstatus = newStatus;
+
+            var ok = await proxy.UpdateMedicineAsync(m);
+            StatusMessage = ok
+                ? $"{m.MedicineName} {newStatus.ToLower()} successfully."
+                : $"Failed to {newStatus.ToLower()} {m.MedicineName}.";
+
+            if (ok) await LoadMedicinesAsync();
+        }
+
+        async Task ChangeOrderStatusAsync(Order o, string newStatus)
+        {
+            o.OStatus = newStatus;
+
+            var ok = await proxy.UpdateOrderStatus(o);
+            StatusMessage = ok
+                ? $"Order {o.Id} {newStatus.ToLower()}."
+                : $"Failed to {newStatus.ToLower()} order {o.Id}.";
+
+            if (ok) await LoadOrdersAsync();
+        }
     }
+
 }

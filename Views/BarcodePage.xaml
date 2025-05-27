@@ -1,0 +1,19 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             xmlns:viewmodels="clr-namespace:MedicineClient.ViewModels"
+             x:Class="MedicineClient.Views.BarcodePage">
+    <VerticalStackLayout Padding="10">
+        <zxing:CameraBarcodeReaderView
+            x:Name="BarcodeReader"
+            BarcodesDetected="BarcodeReader_BarcodesDetected"
+            IsDetecting="{Binding IsDetecting}" 
+            Options="{Binding Options}"
+            HeightRequest="400" />
+
+        <Label Text="Detected Barcode:" FontSize="18" />
+        <Label Text="{Binding Barcode}" FontAttributes="Bold" FontSize="20" />
+
+        <Button Text="Search Medicine" Command="{Binding SearchCommand}" IsEnabled="{Binding CanSearch}" />
+    </VerticalStackLayout>
+</ContentPage>

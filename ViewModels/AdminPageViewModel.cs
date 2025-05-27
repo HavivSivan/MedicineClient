@@ -2,6 +2,7 @@
 using MedicineClient.Models;
 using MedicineClient.Services;
 using MedicineClient.ViewModels;
+using MedicineClient.Views;
 namespace MedicineClient.ViewModels
 {
 
@@ -38,16 +39,23 @@ namespace MedicineClient.ViewModels
 
         public Command SearchCommand { get; }
         public Command EnableCommand { get; }
+        public Command AddPharmacyCommand { get; }
+        public IServiceProvider service;
 
-        public AdminPageViewModel(MedicineWebApi WebService)
+        public AdminPageViewModel(MedicineWebApi WebService, IServiceProvider serviceProvider)
         {
             Finishedsearch = false;
             SelectedUser=new AppUser();
             this.WebService = WebService;
+            this.service = serviceProvider;
             SearchCommand = new Command(async () => await SearchUser());
             EnableCommand = new Command(async () => await EnableUserAsync(), () => SelectedUser != null);
+            AddPharmacyCommand = new Command(OnAddPharmacy);
         }
-
+        public async void OnAddPharmacy()
+        {
+           await ((App)Application.Current).MainPage.Navigation.PushAsync(service.GetService<AddPharmacy>());
+        }
         private async Task SearchUser()
         {
            
