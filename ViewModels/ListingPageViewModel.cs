@@ -121,8 +121,8 @@ public class ListingPageViewModel : ViewModelBase
         if (SelectedMedicine!=null)
         {
             OrderPageViewModel vm = new OrderPageViewModel(proxy, serviceProvider);
-            vm.Initialize(SelectedMedicine);
-            OrderPage page = new OrderPage(vm);
+            
+            OrderPage page = new OrderPage(vm, SelectedMedicine);
             await ((App)Application.Current).MainPage.Navigation.PushAsync(page);
 
         }

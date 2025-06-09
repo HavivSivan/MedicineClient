@@ -50,8 +50,7 @@ namespace MedicineClient.ViewModels
                     if (result)
                     {
                         UploadPrescriptionPageViewModel vm = new UploadPrescriptionPageViewModel(proxy);
-                        vm.Initialize(SelectedMedicine);
-                        UploadPrescriptionPage uploadPage = new UploadPrescriptionPage(vm);
+                        UploadPrescriptionPage uploadPage = new UploadPrescriptionPage(vm, SelectedMedicine);
                         await ((App)Application.Current).MainPage.Navigation.PushAsync(uploadPage);
 
                     }
@@ -59,7 +58,7 @@ namespace MedicineClient.ViewModels
                     {
                         await ((App)Application.Current).MainPage.Navigation.PopAsync();
                         return;
-                    }
+                    } 
                 }
             }
         }

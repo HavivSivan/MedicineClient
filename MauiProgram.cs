@@ -42,7 +42,9 @@ namespace MedicineClient
             builder.Services.AddTransient<AddMedicineViewModel>();
             builder.Services.AddTransient<AddPharmacyViewModel>();
             builder.Services.AddSingleton<MedicineWebApi>();
-
+            builder.Services.AddSingleton<LogOut>();
+            builder.Services.AddTransient<LogOutViewModel>();
+            builder.Services.AddSingleton<DrugWebAPI>();
 
 #if DEBUG
             builder.Logging.AddDebug();

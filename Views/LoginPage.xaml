@@ -54,9 +54,9 @@
                 Margin="0,30,0,0"
                 HeightRequest="50"
                 WidthRequest="250"
-                CornerRadius="25" FontFamily="Gurajada" Command="{Binding LoginCommand}"
+                 FontFamily="Gurajada" Command="{Binding LoginCommand}"
                 IsEnabled="{Binding NotInServerCall}"/>
-        <Button Text="Don't have an account?" TextColor="Blue" BackgroundColor="Red" Command="{Binding GoRegister}"/>
+        <Button Text="Don't have an account?" TextColor="Blue" BackgroundColor="Red" Command="{Binding GoRegister}" Margin="20"/>
 
         
         

@@ -4,7 +4,7 @@
              x:Class="MedicineClient.Views.UploadPrescriptionPage"
              Title="UploadPrescriptionPage" >
     <VerticalStackLayout>
-        <Label Text="{Binding selectedMedicine}"/>
+        <Label Text="{Binding selectedMedicineName}"/>
         <Button
             Text="Upload Prescription"
             Command="{Binding UploadPrescriptionCommand}"

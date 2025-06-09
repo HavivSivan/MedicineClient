@@ -6,10 +6,6 @@
              xmlns:viewModels="clr-namespace:MedicineClient.ViewModels"
               x:DataType="viewModels:AddMedicineViewModel">
     <VerticalStackLayout>
-        <Label Text="Add Medicine"
-               FontSize="24"
-               HorizontalOptions="Center"
-               Margin="10"/>
         <Entry Placeholder="Medicine Name"
                Text="{Binding MedicineName}"
                Margin="10"/>

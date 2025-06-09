@@ -6,10 +6,6 @@
              x:DataType="viewModels:AddPharmacyViewModel"
              Title="AddPharmacy" >
     <VerticalStackLayout>
-        <Label Text="Add Pharmacy"
-               FontSize="24"
-               HorizontalOptions="Center"
-               Margin="10"/>
         <Entry Placeholder="Pharmacy Name"
                Text="{Binding PharmacyName}"
                Margin="10"/>

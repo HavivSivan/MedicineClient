@@ -13,6 +13,7 @@ namespace MedicineClient.ViewModels
     public class UploadPrescriptionPageViewModel : ViewModelBase
     {
         public Medicine selectedMedicine { get; set; }
+        public string selectedMedicineName => selectedMedicine.MedicineName;
         private string fileName;
         private bool isUploaded;
         public bool IsUploaded { get => isUploaded; set { isUploaded = value; OnPropertyChanged(); } }

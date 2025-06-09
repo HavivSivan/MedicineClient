@@ -3,12 +3,12 @@
              x:Class="MedicineClient.Views.ProfilePage">
     <VerticalStackLayout Padding="20" Spacing="15">
 
-        <Label Text="Username" />
+        <Label Text="Current Username"
+                FontSize="Medium"
+                FontAttributes="Bold" Margin="2"/>
+        <Label Text="{Binding CurrentUsername}"/>
         <Entry Text="{Binding NewUsername}" Placeholder="Enter new username" />
-
-        <Label Text="Password" />
         <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Enter password" />
-
         <Label Text="{Binding ErrorMessage}" TextColor="Red" IsVisible="{Binding HasError}" />
 
         <Button Text="Save Changes"

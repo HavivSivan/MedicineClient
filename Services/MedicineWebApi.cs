@@ -11,6 +11,7 @@ using static System.Net.WebRequestMethods;
 using System.Net.Http;
 using System.Text.Json.Serialization;
 using System.Collections.ObjectModel;
+using System.Security.Cryptography.X509Certificates;
 
 
 
@@ -52,6 +53,8 @@ namespace MedicineClient.Services
                         PropertyNameCaseInsensitive=true
                     };
                     AppUser? result = JsonSerializer.Deserialize<AppUser>(resContent, options);
+                    if(result != null)
+                    LoggedInUser = result;
                     return result;
                 }
                 else
@@ -126,19 +129,15 @@ namespace MedicineClient.Services
         {
             try
             {
-                Console.WriteLine("Fetching medicines for the pharmacy...");
-                var response = await client.GetAsync($"{baseUrl}/getmedicines");
+                var response = await client.GetAsync($"{baseUrl}getmedicines");
                 if (response.IsSuccessStatusCode)
                 {
                     var medicines = await response.Content.ReadFromJsonAsync<List<Medicine>>();
-                    Console.WriteLine($"Fetched {medicines?.Count} medicines.");
                     return medicines ?? new List<Medicine>();
                 }
-                Console.WriteLine($"Failed to fetch medicines. Status: {response.StatusCode}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error fetching medicines: {ex.Message}");
             }
 
             return new List<Medicine>();
@@ -147,17 +146,13 @@ namespace MedicineClient.Services
         {
             try
             {
-                Console.WriteLine($"Updating medicine ID {medicine.MedicineId} to status {medicine.Status.Mstatus}...");
-                var response = await client.PutAsJsonAsync($"api/medicine/{medicine.MedicineId}", medicine);
-
-                Console.WriteLine($"Status Code: {response.StatusCode}");
-                Console.WriteLine($"Response Body: {await response.Content.ReadAsStringAsync()}");
+                var json = JsonSerializer.Serialize(medicine);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync($"{baseUrl}UpdateMedicine", content);
                 if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Medicine updated successfully.");
                     return true;
                 }
-                Console.WriteLine($"Failed to update medicine. Status: {response.StatusCode}");
             }
             catch (Exception ex)
             {
@@ -191,43 +186,40 @@ namespace MedicineClient.Services
                 return null;
             }
         }
-        public async Task<List<Order>> GetUserOrdersAsync()
-        {
-            try
-            {
-                var response = await client.GetAsync($"{baseUrl}/Order/GetOrdersList");
-                if (response.IsSuccessStatusCode)
-                {
-                    var orders = await response.Content.ReadFromJsonAsync<List<Order>>();
-                    return orders ?? new List<Order>();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return new List<Order>();
-        }
         public async Task<List<Medicine>> GetUserMedicinesAsync()
         {
             try
             {
-                var response = await client.GetAsync($"{baseUrl}/Medicine/getmedicines");
+                var response = await client.GetAsync($"{baseUrl}getmedicines");
                 if (response.IsSuccessStatusCode)
-                {
-                    var medicines = await response.Content.ReadFromJsonAsync<List<Medicine>>();
-                    return medicines ?? new List<Medicine>();
-                }
+                    return await response.Content.ReadFromJsonAsync<List<Medicine>>()
+                           ?? new List<Medicine>();
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"GetUserMedicinesAsync failed: {ex}");
             }
-
             return new List<Medicine>();
+        }
+
+        public async Task<List<Order>> GetUserOrdersAsync()
+        {
+            try
+            {
+                var response = await client.GetAsync($"{baseUrl}GetOrdersList");
+                if (response.IsSuccessStatusCode)
+                    return await response.Content.ReadFromJsonAsync<List<Order>>()
+                           ?? new List<Order>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"GetUserOrdersAsync failed: {ex}");
+            }
+            return new List<Order>();
         }
         public async Task<bool> IsUsernameTakenAsync(string username)
         {
-            HttpResponseMessage response = await client.GetAsync($"{baseUrl}/isusernametaken/{username}");
+            HttpResponseMessage response = await client.GetAsync($"{baseUrl}is-username-taken/{username}");
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
@@ -240,7 +232,7 @@ namespace MedicineClient.Services
             var json = JsonSerializer.Serialize(user);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync($"{baseUrl}/updateuser", content);
+            var response = await client.PutAsync($"{baseUrl}update-user", content);
             return response.IsSuccessStatusCode;
         }
         public async Task<bool> OrderMedicine(Medicine medicine, string? PrescriptionImage)
@@ -293,12 +285,19 @@ namespace MedicineClient.Services
 
         public async Task<bool> UpdateOrderStatus(Order order)
         {
-
+            OrderDTO orderDTO= new OrderDTO
+            {
+                MedicineId = order.Medicine.MedicineId,
+                UserId = order.User.Id,
+                PrescriptionImage = order.PrescriptionImage,
+                OStatus = order.OStatus
+            };
             try
             {
-                var json = JsonSerializer.Serialize(order);
+                var json = JsonSerializer.Serialize(orderDTO);
+                var url = $"{this.baseUrl}UpdateOrderStatus?Orderid={order.Id}";
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync($"{this.baseUrl}UpdateOrderStatus", content);
+                HttpResponseMessage response = await client.PostAsync(url, content);
                 if (response!=null)
                 {
                     return response.IsSuccessStatusCode;
@@ -420,5 +419,11 @@ namespace MedicineClient.Services
         public string? PrescriptionImage { get; set; }
         public string OStatus { get; set; } = "Pending";
     }
+    public class  OrderUpdateDTO
+    {
+        public OrderDTO OrderDTO { get; set; }
+        public int OrderId { get; set; }
+    }
+
 }
 

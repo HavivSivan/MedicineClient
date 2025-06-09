@@ -12,6 +12,8 @@ namespace MedicineClient.ViewModels
         private AppUser currentUser;
         public AppUser CurrentUser
         {  get { return currentUser; } set { currentUser=value; OnPropertyChanged(); } }
+        public string CurrentUsername
+        { get { return currentUser.UserName; } set { currentUser.UserName = value; OnPropertyChanged(); } }
 
         private string newUsername;
         public string NewUsername
@@ -64,7 +66,7 @@ namespace MedicineClient.ViewModels
             }
 
             currentUser.UserName = NewUsername;
-            currentUser.UserPassword = Password;
+            CurrentUsername = NewUsername;
 
             bool success = await proxy.UpdateUserAsync(currentUser);
             if (!success)
@@ -72,6 +74,8 @@ namespace MedicineClient.ViewModels
                 SetError("Failed to update user. Try again.");
                 return;
             }
+            NewUsername = string.Empty;
+            Password    = string.Empty;
 
             await Shell.Current.DisplayAlert("Success", "Profile updated successfully!", "OK");
         }

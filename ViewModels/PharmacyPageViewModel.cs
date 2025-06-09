@@ -74,8 +74,6 @@ namespace MedicineClient.ViewModels
                 Response = "You have no medicines to review.";
                 return;
             }
-
-            // only show those still “Checking”
             foreach (var m in all.Where(x => x.Status?.Mstatus == "Checking"))
                 Medicines.Add(m);
 
@@ -110,10 +108,7 @@ namespace MedicineClient.ViewModels
             m.Status.Mstatus = newStatus;
 
             var ok = await proxy.UpdateMedicineAsync(m);
-            StatusMessage = ok
-                ? $"{m.MedicineName} {newStatus.ToLower()} successfully."
-                : $"Failed to {newStatus.ToLower()} {m.MedicineName}.";
-
+            StatusMessage = ok ? $"{m.MedicineName} {newStatus.ToLower()} successfully." : $"Failed to {newStatus.ToLower()} {m.MedicineName}.";
             if (ok) await LoadMedicinesAsync();
         }
 

@@ -13,18 +13,10 @@
 
     <ScrollView>
         <StackLayout Padding="10" Spacing="20">
-
-            <!-- search box -->
             <Entry
         Placeholder="Search medicines or orders..."
         Text="{Binding SearchText}"
         ClearButtonVisibility="WhileEditing" />
-
-            <!-- Medicines list -->
-            <Label
-        Text="My Submitted Medicines"
-        FontSize="20"
-        FontAttributes="Bold" />
 
             <CollectionView ItemsSource="{Binding FilteredMedicines}">
                 <CollectionView.ItemTemplate>
