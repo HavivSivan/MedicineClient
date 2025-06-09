@@ -23,6 +23,6 @@ namespace MedicineClient.Models
         public string MedicineName { get; set; }
         public string BrandName { get; set; }
         public int PharmacyId { get; set; }
-        public int UserId { get; set; }
+        public string Username { get; set; }
     }
 }

@@ -51,20 +51,25 @@ namespace MedicineClient.ViewModels
         {
             this.proxy = proxy;
             this.service= serviceProvider;
-            
+            IsRefreshing = false;
             ApproveCommand      = new Command<Medicine>(async m => await ChangeMedicineStatusAsync(m, "Approved", NeedsPrescription));
             DenyCommand         = new Command<Medicine>(async m => await ChangeMedicineStatusAsync(m, "Denied", NeedsPrescription));
             ApproveOrderCommand = new Command<Order>(async o => await ChangeOrderStatusAsync(o, "Approved"));
             DenyOrderCommand    = new Command<Order>(async o => await ChangeOrderStatusAsync(o, "Denied"));
             AddMedicineCommand = new Command(OnAddMedicine);
-            RefreshCommand= new Command(async () => await LoadDataAsync());
+            RefreshCommand = new Command(async () => await LoadDataAsync());
             _ = LoadDataAsync();
         }
 
         public async Task LoadDataAsync()
         {
-            await LoadMedicinesAsync();
-            await LoadOrdersAsync();
+            if (!IsRefreshing)
+            {
+                IsRefreshing = true;
+                await LoadMedicinesAsync();
+                await LoadOrdersAsync();
+                IsRefreshing = false;
+            }
         }
         public  async void OnAddMedicine()
         {

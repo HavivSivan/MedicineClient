@@ -67,7 +67,7 @@ namespace MedicineClient.ViewModels
                     Name = PharmacyName,
                     Address = Address,
                     Phone = Phone,
-                    UserId = Id
+                    UserId=Id
                 };
                 try
                 {

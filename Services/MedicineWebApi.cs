@@ -134,7 +134,7 @@ namespace MedicineClient.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var medicines = await response.Content.ReadFromJsonAsync<List<Medicine>>();
-                    return medicines ?? new List<Medicine>();
+                    return medicines.Where(x=>x.Pharmacy.User.Id==LoggedInUser.Id).ToList() ?? new List<Medicine>();
                 }
             }
             catch (Exception ex)

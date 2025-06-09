@@ -19,7 +19,7 @@ namespace MedicineClient.ViewModels
         }
         private string medicineName;
         private string brandName;
-        private int userId;
+        private string username;
         private string statusMessage;
         public string MedicineName
         {
@@ -31,10 +31,10 @@ namespace MedicineClient.ViewModels
             get => brandName;
             set { brandName = value; OnPropertyChanged(); }
         }
-        public int UserId
+        public string Username
         {
-            get => userId;
-            set { userId = value; OnPropertyChanged(); }
+            get => username;
+            set { username = value; OnPropertyChanged(); }
         }
         public string StatusMessage
         {
@@ -43,7 +43,7 @@ namespace MedicineClient.ViewModels
         }
         private async Task OnAddMedicine()
         {
-            if (medicineName != string.Empty && BrandName!= string.Empty && userId != 0)
+            if (medicineName != string.Empty && BrandName!= string.Empty && Username != string.Empty)
             {
                 if (proxy == null)
                 {
@@ -52,7 +52,7 @@ namespace MedicineClient.ViewModels
                 }
                 AppUser user = new AppUser
                 {
-                    Id = UserId
+                    UserName = Username
                 };
                 MedicineStatus status = new MedicineStatus
                 {
@@ -67,7 +67,7 @@ namespace MedicineClient.ViewModels
                     MedicineName = MedicineName,
                     BrandName = BrandName,
                     PharmacyId = pharmacy.Id,
-                    UserId = user.Id
+                    Username=Username
                 };
                 try
                 {
