@@ -33,6 +33,11 @@ namespace MedicineClient.ViewModels
             get => isRefreshing;
             set { isRefreshing = value; OnPropertyChanged(); }
         }
+        private bool needsPrescription;
+        public bool NeedsPrescription
+        {
+            get => needsPrescription; set { needsPrescription = value; OnPropertyChanged(); }
+        }
 
         public Command ApproveCommand { get; }
         public Command DenyCommand { get; }
@@ -46,8 +51,9 @@ namespace MedicineClient.ViewModels
         {
             this.proxy = proxy;
             this.service= serviceProvider;
-            ApproveCommand      = new Command<Medicine>(async m => await ChangeMedicineStatusAsync(m, "Approved"));
-            DenyCommand         = new Command<Medicine>(async m => await ChangeMedicineStatusAsync(m, "Denied"));
+            
+            ApproveCommand      = new Command<Medicine>(async m => await ChangeMedicineStatusAsync(m, "Approved", NeedsPrescription));
+            DenyCommand         = new Command<Medicine>(async m => await ChangeMedicineStatusAsync(m, "Denied", NeedsPrescription));
             ApproveOrderCommand = new Command<Order>(async o => await ChangeOrderStatusAsync(o, "Approved"));
             DenyOrderCommand    = new Command<Order>(async o => await ChangeOrderStatusAsync(o, "Denied"));
             AddMedicineCommand = new Command(OnAddMedicine);
@@ -66,7 +72,7 @@ namespace MedicineClient.ViewModels
         }
         private async Task LoadMedicinesAsync()
         {
-            var all = await proxy.GetMedicineList();
+            var all = await proxy.GetMedicinesAsync();
             Medicines.Clear();
 
             if (all == null || all.Count == 0)
@@ -102,11 +108,10 @@ namespace MedicineClient.ViewModels
         }
 
 
-        async Task ChangeMedicineStatusAsync(Medicine m, string newStatus)
+        async Task ChangeMedicineStatusAsync(Medicine m, string newStatus, bool NeedsPrescription)
         {
-            m.Status ??= new MedicineStatus();
-            m.Status.Mstatus = newStatus;
-
+            m.Status ??= new MedicineStatus() { Mstatus = "Checking", Notes=m.Status.Notes };
+            m.NeedsPrescription = NeedsPrescription;
             var ok = await proxy.UpdateMedicineAsync(m);
             StatusMessage = ok ? $"{m.MedicineName} {newStatus.ToLower()} successfully." : $"Failed to {newStatus.ToLower()} {m.MedicineName}.";
             if (ok) await LoadMedicinesAsync();

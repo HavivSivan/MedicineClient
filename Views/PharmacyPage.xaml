@@ -24,6 +24,9 @@
                             <Frame>
                                 <VerticalStackLayout>
                                     <Label Text="{Binding MedicineName}" />
+                                    <Label Text="Needs Prescription"/>
+                                    <CheckBox IsChecked="{Binding NeedsPrescription}" />
+                                    <Entry Placeholder="Leave a note." Text="{Binding Status.Notes}"/>
                                     <HorizontalStackLayout Spacing="10">
                                         <Button Text="Approve"
                       Command="{Binding BindingContext.ApproveCommand,
