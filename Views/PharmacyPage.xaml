@@ -48,6 +48,7 @@
                                     <Label Text="{Binding Medicine.MedicineName}" />
                                     <Label Text="{Binding User.UserName}" />
                                     <Label Text="{Binding OStatus}" />
+                                    <Image Aspect="AspectFit" Margin="4" Source="{Binding PrescriptionImage}"/>
 
                                     <HorizontalStackLayout>
                                         <Button Text="Approve"

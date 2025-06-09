@@ -33,7 +33,8 @@ namespace MedicineClient.Services
         private HttpClient client;
 
         private JsonSerializerOptions jsonSerializerOptions;
-        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://zh7xvw6t-5155.euw.devtunnels.ms/api/" : "http://localhost:5155/api/";
+        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://zh7xvw6t-5155.euw.devtunnels.ms/api" : "http://localhost:5155/api/";
+        private static string ServerUrl = DeviceInfo.Platform == DevicePlatform.Android ? "https://zh7xvw6t-5155.euw.devtunnels.ms/" : "http://localhost:5155";
 
         private string baseUrl = "https://zh7xvw6t-5155.euw.devtunnels.ms/api/";
         public AppUser LoggedInUser { get; set; }
@@ -275,7 +276,7 @@ namespace MedicineClient.Services
                     return null;
 
                 string imageUrl = await response.Content.ReadAsStringAsync();
-                return imageUrl;
+                return $"{ServerUrl}{imageUrl}";
             }
             catch
             {
