@@ -33,11 +33,6 @@ namespace MedicineClient.ViewModels
             get => isRefreshing;
             set { isRefreshing = value; OnPropertyChanged(); }
         }
-        private bool needsPrescription;
-        public bool NeedsPrescription
-        {
-            get => needsPrescription; set { needsPrescription = value; OnPropertyChanged(); }
-        }
 
         public Command ApproveCommand { get; }
         public Command DenyCommand { get; }
@@ -52,8 +47,8 @@ namespace MedicineClient.ViewModels
             this.proxy = proxy;
             this.service= serviceProvider;
             IsRefreshing = false;
-            ApproveCommand      = new Command<Medicine>(async m => await ChangeMedicineStatusAsync(m, "Approved", NeedsPrescription));
-            DenyCommand         = new Command<Medicine>(async m => await ChangeMedicineStatusAsync(m, "Denied", NeedsPrescription));
+            ApproveCommand      = new Command<Medicine>(async m => await ChangeMedicineStatusAsync(m, "Approved"));
+            DenyCommand         = new Command<Medicine>(async m => await ChangeMedicineStatusAsync(m, "Denied"));
             ApproveOrderCommand = new Command<Order>(async o => await ChangeOrderStatusAsync(o, "Approved"));
             DenyOrderCommand    = new Command<Order>(async o => await ChangeOrderStatusAsync(o, "Denied"));
             AddMedicineCommand = new Command(OnAddMedicine);
@@ -63,15 +58,26 @@ namespace MedicineClient.ViewModels
 
         public async Task LoadDataAsync()
         {
-            if (!IsRefreshing)
+            if (IsRefreshing) return;
+
+            IsRefreshing = true;
+            StatusMessage = string.Empty;
+            try
             {
-                IsRefreshing = true;
                 await LoadMedicinesAsync();
                 await LoadOrdersAsync();
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Error refreshing: {ex.Message}";
+            }
+            finally
+            {
                 IsRefreshing = false;
             }
         }
-        public  async void OnAddMedicine()
+
+        public async void OnAddMedicine()
         {
             ((App)Application.Current).MainPage.Navigation.PushAsync(service.GetService<AddMedicine>());
         }
@@ -105,18 +111,19 @@ namespace MedicineClient.ViewModels
             }
 
             foreach (var o in all.Where(x => x.OStatus == "Pending"))
+            {
                 Orders.Add(o);
-
+                Console.WriteLine(o.PrescriptionImage);
+            }
             Response = Orders.Any()
                 ? string.Empty
                 : "No pending orders.";
         }
 
 
-        async Task ChangeMedicineStatusAsync(Medicine m, string newStatus, bool NeedsPrescription)
+        async Task ChangeMedicineStatusAsync(Medicine m, string newStatus)
         {
             m.Status ??= new MedicineStatus() { Mstatus = "Checking", Notes=m.Status.Notes };
-            m.NeedsPrescription = NeedsPrescription;
             var ok = await proxy.UpdateMedicineAsync(m);
             StatusMessage = ok ? $"{m.MedicineName} {newStatus.ToLower()} successfully." : $"Failed to {newStatus.ToLower()} {m.MedicineName}.";
             if (ok) await LoadMedicinesAsync();

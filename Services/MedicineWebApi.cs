@@ -327,10 +327,13 @@ namespace MedicineClient.Services
                     List<Order> orderList = JsonSerializer.Deserialize<List<Order>>(content, options);
                     if (orderList != null)
                     {
+
                         foreach (var order in orderList)
                         {
-                            orders.Add(order);
+                            if (order.Medicine?.Pharmacy?.User?.Id == LoggedInUser.Id)
+                                orders.Add(order);
                         }
+
                     }
                 }
             }

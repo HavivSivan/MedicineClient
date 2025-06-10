@@ -26,6 +26,8 @@
                 <Label Text="{Binding Rank}"/>
                 <Label Text="Active:" FontAttributes="Bold" />
                 <Label Text="{Binding Active}"/>
+                <Label Text="User Id:" FontAttributes="Bold"/>
+                <Label Text="{Binding Id}"/>
             </VerticalStackLayout>
         </Frame>
         <Button Text="Enable/Disable User"

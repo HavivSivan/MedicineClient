@@ -1,12 +1,13 @@
-﻿using System;
+﻿using MedicineClient.Models;
+using MedicineClient.Services;
+using MedicineClient.Views;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MedicineClient.Models;
-using MedicineClient.Services;
-using MedicineClient.Views;
-using Microsoft.Extensions.DependencyInjection;
+using ZXing;
 
 namespace MedicineClient.ViewModels
 {
@@ -46,8 +47,8 @@ namespace MedicineClient.ViewModels
                 }
                 else
                 {
-                    bool result = await ((App)Application.Current).MainPage.DisplayAlert("Prescription Required", "This medicine requires a prescription. Do you want to upload a prescription?", "Yes", "No");
-                    if (result)
+                    bool response = await ((App)Application.Current).MainPage.DisplayAlert("Prescription Required", "This medicine requires a prescription. Do you want to upload a prescription?", "Yes", "No");
+                    if (response)
                     {
                         UploadPrescriptionPageViewModel vm = new UploadPrescriptionPageViewModel(proxy);
                         UploadPrescriptionPage uploadPage = new UploadPrescriptionPage(vm, SelectedMedicine);
