@@ -123,7 +123,7 @@ namespace MedicineClient.ViewModels
 
         async Task ChangeMedicineStatusAsync(Medicine m, string newStatus)
         {
-            m.Status ??= new MedicineStatus() { Mstatus = "Checking", Notes=m.Status.Notes };
+            m.Status.Mstatus = newStatus;
             var ok = await proxy.UpdateMedicineAsync(m);
             StatusMessage = ok ? $"{m.MedicineName} {newStatus.ToLower()} successfully." : $"Failed to {newStatus.ToLower()} {m.MedicineName}.";
             if (ok) await LoadMedicinesAsync();

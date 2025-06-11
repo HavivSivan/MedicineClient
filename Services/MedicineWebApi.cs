@@ -239,8 +239,9 @@ namespace MedicineClient.Services
         public async Task<bool> UpdateUserAsync(AppUser user)
         {
             var json = JsonSerializer.Serialize(user);
+            
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-
+            
             var response = await client.PutAsync($"{baseUrl}update-user", content);
             return response.IsSuccessStatusCode;
         }

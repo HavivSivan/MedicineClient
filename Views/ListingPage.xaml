@@ -24,6 +24,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
@@ -39,8 +40,11 @@
                                 <Label Grid.Row="2" Grid.Column="0" Text="Pharmacy:" FontAttributes="Bold" />
                                 <Label Grid.Row="2" Grid.Column="1" Text="{Binding Pharmacy.Name}" />
 
-                                <Label Grid.Row="3" Grid.Column="0" Text="Status:" FontAttributes="Bold" />
-                                <Label Grid.Row="3" Grid.Column="1" Text="{Binding Status.Mstatus}" />
+                                <Label Grid.Row="3" Grid.Column="0" Text="Notes:" FontAttributes="Bold" />
+                                <Label Grid.Row="3" Grid.Column="1" Text="{Binding Status.Notes}"/>
+
+                                <Label Grid.Row="4" Grid.Column="0" Text="Status:" FontAttributes="Bold" />
+                                <Label Grid.Row="4" Grid.Column="1" Text="{Binding Status.Mstatus}" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

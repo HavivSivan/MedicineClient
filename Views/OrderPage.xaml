@@ -22,6 +22,10 @@
                 <Label Text="Pharmacy:" FontAttributes="Bold" />
                 <Label Text="{Binding SelectedMedicine.Pharmacy.Name}" />
 
+                <Label Text="Notes:" FontAttributes="Bold" />
+                <Label Text="{Binding SelectedMedicine.Status.Notes}"/>
+
+
                 <Label Text="Needs Prescription:" FontAttributes="Bold" />
                 <Label Text="{Binding SelectedMedicine.NeedsPrescription}" />
             </VerticalStackLayout>

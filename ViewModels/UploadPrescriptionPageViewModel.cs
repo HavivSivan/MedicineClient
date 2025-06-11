@@ -77,6 +77,7 @@ namespace MedicineClient.ViewModels
                 {
                     await ((App)Application.Current).MainPage.DisplayAlert("Success", "Medicine ordered successfully", "OK");
                     await ((App)Application.Current).MainPage.Navigation.PopAsync();
+                    await ((App)Application.Current).MainPage.Navigation.PopAsync();
                 }
                 else
                 {

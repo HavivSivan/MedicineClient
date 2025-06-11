@@ -50,7 +50,7 @@
                                 <Label
                   Text="{Binding OStatus, StringFormat='Order status: {0}'}" />
                                 <Label
-                  Text="{Binding User.UserName, StringFormat='Ordered by: {0}'}" />
+                  Text="{Binding Medicine.Pharmacy.Name, StringFormat='Ordered at: {0}'}" />
                             </StackLayout>
                         </Frame>
                     </DataTemplate>
