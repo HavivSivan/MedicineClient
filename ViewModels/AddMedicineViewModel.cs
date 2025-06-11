@@ -45,15 +45,12 @@ namespace MedicineClient.ViewModels
         {
             if (medicineName != string.Empty && BrandName!= string.Empty && Username != string.Empty)
             {
+                AppUser Sender = await proxy.GetUserByUsernameAsync(Username);
                 if (proxy == null)
                 {
                     StatusMessage = "Internal error: Service unavailable.";
                     return;
                 }
-                AppUser user = new AppUser
-                {
-                    UserName = Username
-                };
                 MedicineStatus status = new MedicineStatus
                 {
                     Mstatus = "Pending"
@@ -67,7 +64,7 @@ namespace MedicineClient.ViewModels
                     MedicineName = MedicineName,
                     BrandName = BrandName,
                     PharmacyId = pharmacy.Id,
-                    Username=Username
+                    Userid= Sender.Id
                 };
                 try
                 {

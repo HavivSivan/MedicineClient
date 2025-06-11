@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="PharmacyManagementPage"    
              xmlns:Views="clr-namespace:MedicineClient.Views"
              x:Class="MedicineClient.Views.PharmacyPage"
              xmlns:ViewModels="clr-namespace:MedicineClient.ViewModels"
              xmlns:Models="clr-namespace:MedicineClient.Models"
              x:DataType="ViewModels:PharmacyPageViewModel"
              >
-    <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand, Mode=TwoWay}" >
+    <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="10">
+            <Button Text="Refresh" Command="{Binding RefreshCommand}"/>
             <Label Text="Manage Medicines" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center" />
             <Button Text="Add Medicine" 
                 Command="{Binding AddMedicineCommand}" 
@@ -28,12 +30,10 @@
                                 <Entry Placeholder="Leave a note." Text="{Binding Status.Notes}"/>
                                 <HorizontalStackLayout Spacing="10">
                                     <Button Text="Approve"
-                      Command="{Binding BindingContext.ApproveCommand,
-                                Source={x:Reference PharmacyPage}}"
+                      Command="{Binding Source={x:Reference PharmacyManagementPage}, Path=BindingContext.ApproveCommand}"
                       CommandParameter="{Binding .}" />
                                     <Button Text="Deny"
-                      Command="{Binding BindingContext.DenyCommand,
-                                Source={x:Reference PharmacyPage}}"
+                      Command="{Binding Source={x:Reference PharmacyManagementPage}, Path=BindingContext.DenyCommand}"
                       CommandParameter="{Binding .}" />
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
@@ -54,12 +54,12 @@
 
                                 <HorizontalStackLayout>
                                     <Button Text="Approve"
-                                Command="{Binding Source={x:Reference PharmacyPage}, Path=BindingContext.ApproveCommand}"
+                                Command="{Binding Source={x:Reference PharmacyManagementPage}, Path=BindingContext.ApproveOrderCommand}"
                                 CommandParameter="{Binding .}"
                                 BackgroundColor="Green"
                                 TextColor="White" />
                                     <Button Text="Deny"
-                                Command="{Binding Source={x:Reference PharmacyPage}, Path=BindingContext.DenyCommand}"
+                                Command="{Binding Source={x:Reference PharmacyManagementPage}, Path=BindingContext.DenyOrderCommand}"
                                 CommandParameter="{Binding .}"
                                 BackgroundColor="Red"
                                 TextColor="White" />
@@ -71,6 +71,6 @@
             </CollectionView>
             <Label Text="{Binding StatusMessage}" TextColor="Red" FontAttributes="Italic" HorizontalOptions="Center" />
         </VerticalStackLayout>
-    </RefreshView>
+    </ScrollView>
 
 </ContentPage>

@@ -54,8 +54,9 @@ namespace MedicineClient.Services
                         PropertyNameCaseInsensitive=true
                     };
                     AppUser? result = JsonSerializer.Deserialize<AppUser>(resContent, options);
-                    if(result != null)
-                    LoggedInUser = result;
+                    if (result != null)
+                        LoggedInUser=result;
+                        
                     return result;
                 }
                 else
@@ -134,11 +135,14 @@ namespace MedicineClient.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var medicines = await response.Content.ReadFromJsonAsync<List<Medicine>>();
+
+                   
                     return medicines.Where(x=>x.Pharmacy.User.Id==LoggedInUser.Id).ToList() ?? new List<Medicine>();
                 }
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"GetMedicinesAsync failed: {ex}");
             }
 
             return new List<Medicine>();
@@ -209,8 +213,12 @@ namespace MedicineClient.Services
             {
                 var response = await client.GetAsync($"{baseUrl}GetOrdersList");
                 if (response.IsSuccessStatusCode)
-                    return await response.Content.ReadFromJsonAsync<List<Order>>()
+                {
+                    var list = await response.Content.ReadFromJsonAsync<List<Order>>();
+                    list.Where(x => x.User.Id == LoggedInUser.Id).ToList();
+                    return list
                            ?? new List<Order>();
+                }
             }
             catch (Exception ex)
             {
